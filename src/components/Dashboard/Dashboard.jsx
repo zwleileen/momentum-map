@@ -22,10 +22,13 @@ const Dashboard = () => {
 
   return (
     <main>
-      <h1>Welcome, {user.username}</h1>
-      <p>
-        This is the dashboard page where you can see a list of all the users.
-      </p>
+      <h1>{user.username}'s Profile</h1>
+      <h2>Top 5 Values</h2>
+      <button>See more</button>
+      <button>Redo Questionnaire</button>
+      <h2>Friends</h2>
+      <button>All Friends</button>
+      <button>Find Friends</button>
       <ul>
         {users.map(user => (
           <li key={user._id}>{user.username}</li>
