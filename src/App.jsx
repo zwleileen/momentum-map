@@ -17,6 +17,7 @@ import { UserContext } from "./contexts/UserContext";
 const App = () => {
   const { user } = useContext(UserContext);
   const [ valuesResults, setValuesResults] = useState({});
+  const [ tempValues, setTempValues ] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,25 +28,46 @@ const App = () => {
           setValuesResults(fetchedValues);
         }
       } catch (err) {
-        console.log(err);
+        console.log("Error fetching values:", err);
       }
     };
-    
+
     fetchValues();
-  }, [user]); 
+  }, [user]);
 
   const handleAddValues = async (averages) => {
     try {
-    const newValues = await valuesService.create(averages);  
-    console.log(newValues)
-    setValuesResults(newValues);
-    { user ? 
-      navigate("/") : navigate("/sign-up")
-    };
+      if(!user) {
+        setTempValues(averages);
+        navigate("/sign-up");
+        return;
+      }
+      
+      const newValues = await valuesService.create(averages);
+      console.log(newValues);
+      setValuesResults(newValues);
+      navigate("/")
     } catch (error) {
     console.error("Error creating values:", error);
     }
   };
+
+  useEffect(() => {
+    const saveTempValues = async () => {
+      if (user && tempValues) {
+        try {
+          const newValues = await valuesService.create(tempValues);
+          setValuesResults(newValues);
+          setTempValues(null); // Clear temp values after saving
+          navigate("/");
+        } catch (error) {
+          console.error("Error saving temporary values:", error);
+        }
+      }
+    };
+
+    saveTempValues();
+  }, [user, tempValues, navigate]);
 
 
   return (
