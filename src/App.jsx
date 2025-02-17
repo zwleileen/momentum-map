@@ -25,13 +25,13 @@ const App = () => {
           <>
             {/* Protected routes (available only to signed-in users) */}
             <Route path="/values" element={<ValuesResults />} />
-            <Route path="/values/new" element={<ValuesForm />} />
             <Route path="/users" element={<FriendsList />} />
             <Route path="/users/:userId" element={<FriendProfile />} />
           </>
         ) : (
           <>
             {/* Non-user routes (available only to guests) */}
+            <Route path="/values/new" element={<ValuesForm />} />
             <Route path="/sign-up" element={<SignUpForm />} />
             <Route path="/sign-in" element={<SignInForm />} />
           </>
