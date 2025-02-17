@@ -24,7 +24,6 @@ const Dashboard = ({valuesResults}) => {
   const topValues = valuesResults && valuesResults.values
   ? Object.entries(valuesResults.values).sort((a, b) => b[1] - a[1]).slice(0, 5)
   : [];
-  console.log(topValues);
 
   return (
     <main>

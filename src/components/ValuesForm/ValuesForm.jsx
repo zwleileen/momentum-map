@@ -70,7 +70,7 @@ const ValuesForm = (props) => {
       e.preventDefault();
       try {
         const averages = computeResults(valuesInputs);
-        console.log("User's values:", averages);
+        // console.log("User's values:", averages);
         props.handleAddValues(averages); //pass averages to parent
       } catch (error) {
         console.log(error)

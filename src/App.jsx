@@ -22,7 +22,7 @@ const App = () => {
   const handleAddValues = async (averages) => {
     try {
     const newValues = await valuesService.create(averages);  
-    console.log(newValues)
+    // console.log(newValues)
     setValuesResults(newValues);
     { user ? 
       navigate("/") : navigate("/sign-up")
