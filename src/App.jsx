@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Routes, Route, useNavigate } from "react-router";
 
 import NavBar from "./components/NavBar/NavBar";
@@ -19,10 +19,25 @@ const App = () => {
   const [ valuesResults, setValuesResults] = useState({});
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const fetchValues = async () => {
+      try {
+        if (user) {
+          const fetchedValues = await valuesService.show(user._id);
+          setValuesResults(fetchedValues);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    
+    fetchValues();
+  }, [user]); 
+
   const handleAddValues = async (averages) => {
     try {
     const newValues = await valuesService.create(averages);  
-    // console.log(newValues)
+    console.log(newValues)
     setValuesResults(newValues);
     { user ? 
       navigate("/") : navigate("/sign-up")
@@ -37,7 +52,7 @@ const App = () => {
     <>
       <NavBar />
       <Routes>
-        <Route path="/" element={user ? <Dashboard valuesResults={valuesResults}/> : <Landing />} />
+        <Route path="/" element={user ? <Dashboard valuesResults={valuesResults} setValuesResults={setValuesResults}/> : <Landing />} />
         {user ? (
           <>
             {/* Protected routes (available only to signed-in users) */}

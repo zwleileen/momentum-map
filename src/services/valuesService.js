@@ -11,9 +11,9 @@ const index = async () => {
   }
 };
 
-const show = async (valuesId) => {
+const show = async (userId) => {
   try {
-    const res = await fetch(`${BASE_URL}/${valuesId}`, {
+    const res = await fetch(`${BASE_URL}/${userId}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     });
     return res.json();

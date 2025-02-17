@@ -3,7 +3,7 @@ import { UserContext } from '../../contexts/UserContext';
 import * as userService from '../../services/userService';
 import { useNavigate } from 'react-router';
 
-const Dashboard = ({valuesResults}) => {
+const Dashboard = (props) => {
   const { user } = useContext(UserContext);
   const [ users, setUsers ] = useState([]);
   const navigate = useNavigate();
@@ -12,8 +12,10 @@ const Dashboard = ({valuesResults}) => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const fetchedUsers = await userService.index();
-        setUsers(fetchedUsers);
+        if (user) {
+          const fetchedUsers = await userService.index();
+          setUsers(fetchedUsers);
+        }
       } catch (err) {
         console.log(err)
       }
@@ -21,13 +23,14 @@ const Dashboard = ({valuesResults}) => {
     if (user) fetchUsers();
   }, [user]);
 
-  const topValues = valuesResults && valuesResults.values
-  ? Object.entries(valuesResults.values).sort((a, b) => b[1] - a[1]).slice(0, 5)
+
+  const topValues = props.valuesResults && props.valuesResults.values
+  ? Object.entries(props.valuesResults.values).sort((a, b) => b[1] - a[1]).slice(0, 5)
   : [];
 
   return (
     <main>
-      <h1>{user.username}'s Profile</h1>
+      <h1>{user.username}'s Profile</h1> 
 
       <div>
         <h2>Top 5 Values</h2>
