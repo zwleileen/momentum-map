@@ -1,5 +1,6 @@
-const ValuesForm = () => {
-    return (
+const ValuesResults = () => {
+    
+  return (
       <main>
         <ul>
             <li>Universalism: 9</li>
@@ -10,5 +11,5 @@ const ValuesForm = () => {
     );
   };
   
-  export default ValuesForm;
+  export default ValuesResults;
   

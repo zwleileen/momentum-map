@@ -26,8 +26,6 @@ const ValuesForm = ({onSubmit}) => {
         {id: "U", label: "I seek every chance I can to have fun. It is important to me to do things that give me pleasure."},
     ];
 
-    const [valuesInputs, setValuesInputs] = useState({});
-
     const inputMapping = {
         Universalism: ["C", "H", "S"],
         Benevolence: ["L", "R"],
@@ -41,6 +39,8 @@ const ValuesForm = ({onSubmit}) => {
         SelfDirection: ["A", "K"],
     };
 
+    const [valuesInputs, setValuesInputs] = useState({});
+    
     const computeResults = (valuesInputs) => {
         const averages = {};
         const valueKeys = Object.keys(inputMapping); //get all value names e.g. Universalism
