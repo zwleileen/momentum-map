@@ -10,6 +10,7 @@ import FriendProfile from "./components/FriendProfile/FriendProfile";
 import FriendsList from "./components/FriendsList/FriendsList";
 import ValuesForm from "./components/ValuesForm/ValuesForm";
 import ValuesResults from "./components/ValuesResults/ValuesResults";
+import * as valuesService from './services/valuesService';
 
 import { UserContext } from "./contexts/UserContext";
 
@@ -18,13 +19,14 @@ const App = () => {
   const [ valuesResults, setValuesResults] = useState({});
   const navigate = useNavigate();
 
-  const handleSubmit = (e, averages) => {
-    e.preventDefault();
-    console.log(averages);
-    setValuesResults(averages);
+  const handleAddValues = async (averages) => {
+    const newValues = await valuesService.create(averages);  
+    console.log(newValues)
+    setValuesResults({newValues});
     { user ? 
       navigate("/") : navigate("/sign-up")
     };
+    console.log(valuesResults);
   }
 
 
@@ -37,14 +39,14 @@ const App = () => {
           <>
             {/* Protected routes (available only to signed-in users) */}
             <Route path="/values" element={<ValuesResults />} />
-            <Route path="/values/new" element={<ValuesForm onSubmit={handleSubmit}/>} />
+            <Route path="/values/new" element={<ValuesForm handleAddValues={handleAddValues}/>} />
             <Route path="/users" element={<FriendsList />} />
             <Route path="/users/:userId" element={<FriendProfile />} />
           </>
         ) : (
           <>
             {/* Non-user routes (available only to guests) */}
-            <Route path="/values/new" element={<ValuesForm onSubmit={handleSubmit}/>} />
+            <Route path="/values/new" element={<ValuesForm handleAddValues={handleAddValues}/>} />
             <Route path="/sign-up" element={<SignUpForm />} />
             <Route path="/sign-in" element={<SignInForm />} />
           </>

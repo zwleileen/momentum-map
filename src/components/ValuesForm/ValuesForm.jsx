@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-const ValuesForm = ({onSubmit}) => {
-  
+const ValuesForm = (props) => {
+
   const valuesQuestions = [
       {id: "A", label: "Thinking up new ideas and being creative is important to me. I like to do things in my own original way."},
       {id: "B", label: "It is important to me to be rich. I want to have a lot of money and expensive things."},
@@ -68,9 +68,13 @@ const ValuesForm = ({onSubmit}) => {
 
   const handleSubmit = (e) => {
       e.preventDefault();
-      const averages = computeResults(valuesInputs);
-      console.log("User's values:", averages);
-      onSubmit(e, averages); //pass averages to parent
+      try {
+        const averages = computeResults(valuesInputs);
+        console.log("User's values:", averages);
+        props.handleAddValues(averages); //pass averages to parent
+      } catch (error) {
+        console.log(error)
+      }
   };
 
 
