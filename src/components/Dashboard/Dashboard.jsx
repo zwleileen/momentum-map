@@ -21,8 +21,8 @@ const Dashboard = ({valuesResults}) => {
     if (user) fetchUsers();
   }, [user]);
 
-  const topValues = valuesResults && Object.keys(valuesResults).length > 0
-  ? Object.entries(valuesResults).sort((a, b) => b[1] - a[1]).slice(0, 5)
+  const topValues = valuesResults && valuesResults.values
+  ? Object.entries(valuesResults.values).sort((a, b) => b[1] - a[1]).slice(0, 5)
   : [];
   console.log(topValues);
 

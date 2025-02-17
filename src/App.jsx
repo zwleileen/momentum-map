@@ -20,15 +20,17 @@ const App = () => {
   const navigate = useNavigate();
 
   const handleAddValues = async (averages) => {
-    console.log(averages);
+    try {
     const newValues = await valuesService.create(averages);  
     console.log(newValues)
     setValuesResults(newValues);
     { user ? 
       navigate("/") : navigate("/sign-up")
     };
-    console.log(valuesResults);
-  }
+    } catch (error) {
+    console.error("Error creating values:", error);
+    }
+  };
 
 
   return (

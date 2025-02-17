@@ -42,12 +42,18 @@ const create = async (valuesResults) => {
       body: JSON.stringify(valuesResults),
     });
 
-    const text = await res.text();
-    console.log("raw response:", text);
+    // Handle non-200 responses
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.error || "Failed to create values");
+    }
 
-    return res.json();
+    // Only read the response body once
+    const data = await res.json();
+    return data;
   } catch (error) {
-    console.log(error);
+    console.log("Error creating values:", error);
+    throw error;
   }
 };
 
