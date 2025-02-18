@@ -42,8 +42,13 @@ const App = () => {
         navigate("/sign-up");
         return;
       }
-      
-      const newValues = await valuesService.create(averages);
+
+      let newValues;
+      if (valuesResults._id) {
+        newValues = await valuesService.update(averages);
+      } else {
+        newValues = await valuesService.create(averages);
+      }
       console.log(newValues);
       setValuesResults(newValues);
       navigate("/")
