@@ -50,7 +50,7 @@ const Dashboard = (props) => {
       <div>
       <h2>Friends</h2>
         <button>All Friends</button>
-        <button>Find Friends</button>
+        <button onClick={() => navigate("/users")}>Find Friends</button>
         <ul>
           {users.map(user => (
             <li key={user._id}>{user.username}</li>
