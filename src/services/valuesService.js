@@ -24,7 +24,7 @@ const show = async (userId) => {
 
 const create = async (valuesResults) => {
   try {
-    const res = await fetch(`${BASE_URL}/new`, {
+    const res = await fetch(BASE_URL, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
