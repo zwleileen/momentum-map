@@ -18,6 +18,7 @@ const App = () => {
   const { user } = useContext(UserContext);
   const [ valuesResults, setValuesResults] = useState({});
   const [ tempValues, setTempValues ] = useState(null);
+  const [ isCreating, setIsCreating ] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,6 +39,7 @@ const App = () => {
   const handleAddValues = async (averages) => {
     try {
       if(!user) {
+        console.log("No user, storing temp values");
         setTempValues(averages);
         navigate("/sign-up");
         return;
@@ -59,20 +61,25 @@ const App = () => {
 
   useEffect(() => {
     const saveTempValues = async () => {
-      if (user && tempValues) {
+      if (user && tempValues && !isCreating) {
         try {
+          setIsCreating(true); 
+          console.log("useEffect triggered with:", { user: user._id, tempValues });
           const newValues = await valuesService.create(tempValues);
+          console.log("Values created in useEffect:", newValues);
           setValuesResults(newValues);
           setTempValues(null); // Clear temp values after saving
           navigate("/");
         } catch (error) {
           console.error("Error saving temporary values:", error);
+        } finally {
+          setIsCreating(false); //reset flag after creation to make sure the create only occurs once
         }
       }
     };
 
     saveTempValues();
-  }, [user, tempValues, navigate]);
+  }, [user, tempValues, navigate, isCreating]);
 
 
   return (
