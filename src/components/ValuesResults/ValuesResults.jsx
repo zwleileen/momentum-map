@@ -1,12 +1,22 @@
-const ValuesResults = () => {
+import { useNavigate } from "react-router";
+
+const ValuesResults = (props) => {
+  const navigate = useNavigate();
+
+  const valuesArray = props.valuesResults?.values ? 
+    Object.entries(props.valuesResults.values).sort((a, b) => b[1] - a[1]) : [];
     
   return (
       <main>
+        <h1>Here are your values ranking</h1>
         <ul>
-            <li>Universalism: 9</li>
-            <li>Benevolence: 9</li>
-            <li>Tradition: 9</li>
+          {valuesArray.map(([key, value]) => (
+            <li key={key}>
+              <strong>{key}:</strong>{value}
+            </li>
+          ))}
         </ul>
+        <button onClick={() => navigate("/values/new")}>Redo Questionnaire</button>
       </main>
     );
   };

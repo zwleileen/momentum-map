@@ -88,7 +88,7 @@ const App = () => {
         {user ? (
           <>
             {/* Protected routes (available only to signed-in users) */}
-            <Route path="/values" element={<ValuesResults />} />
+            <Route path="/values" element={<ValuesResults valuesResults={valuesResults}/>} />
             <Route path="/values/new" element={<ValuesForm handleAddValues={handleAddValues}/>} />
             <Route path="/users" element={<FriendsList />} />
             <Route path="/users/:userId" element={<FriendProfile />} />
