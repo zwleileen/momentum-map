@@ -5,19 +5,20 @@ const ValuesResults = (props) => {
 
   const valuesArray = props.valuesResults?.values ? 
     Object.entries(props.valuesResults.values).sort((a, b) => b[1] - a[1]) : [];
-
-  console.log(valuesArray);
+    // console.log(valuesArray);
 
   const valuesObject = Object.fromEntries(valuesArray);
 
   // Compute higher-order values
-  const higherOrderValues = Object.entries({
-    selfTranscendence: (valuesObject.Universalism + valuesObject.Benevolence) / 2,
-    conservation: (valuesObject.Tradition + valuesObject.Conformity + valuesObject.Security) / 3,
-    selfEnhancement: (valuesObject.Achievement + valuesObject.Power) / 2,
-    openness: (valuesObject.SelfDirection + valuesObject.Stimulation) / 2,
-    hedonism: valuesObject.Hedonism
-  });
+  const higherOrderValues = {
+    SelfTranscendence: (valuesObject.Universalism + valuesObject.Benevolence) / 2,
+    Conservation: (valuesObject.Tradition + valuesObject.Conformity + valuesObject.Security) / 3,
+    SelfEnhancement: (valuesObject.Achievement + valuesObject.Power) / 2,
+    OpennessToChange: (valuesObject.SelfDirection + valuesObject.Stimulation + valuesObject.Hedonism) / 3,
+  };
+
+  const sortedHigherOrderValues = Object.entries(higherOrderValues)
+    .sort((a, b) => b[1] - a[1]);
     
   return (
       <main>
@@ -33,7 +34,7 @@ const ValuesResults = (props) => {
         
         <h3>Higher Order Values</h3>
         <ul>
-          {higherOrderValues.map(([key, value]) => (
+          {sortedHigherOrderValues.map(([key, value]) => (
             <li key={key}>
               <strong>{key}:</strong>{value}
             </li>
