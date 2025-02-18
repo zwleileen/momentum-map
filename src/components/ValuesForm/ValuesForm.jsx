@@ -80,8 +80,8 @@ const ValuesForm = (props) => {
 
     return (
     <form onSubmit={handleSubmit}>
-        <h1>Let's find out how these values matter to you!</h1>
-        <p>This questionnaire is taken from Schwartz Theory of Basic Values. Please respond to all the questions below by rating each of them 1 to 5, 5 being most like you and 1 being least like you.</p>
+        <h1>Clarifying your values</h1>
+        <p>This questionnaire consists of 21 questions taken from the Schwartz Theory of Basic Values. Please respond to all the questions below by rating each of them 1 to 5, 5 being most like you and 1 being least like you.</p>
         {valuesQuestions.map(({ id, label }) => (
         <div key={id} style={{marginBottom:"15px"}}>
             <label htmlFor={id} style={{ display: "block", fontWeight: "bold" }}>{label}</label>
