@@ -64,9 +64,7 @@ const App = () => {
       if (user && tempValues && !isCreating) {
         try {
           setIsCreating(true); 
-          console.log("useEffect triggered with:", { user: user._id, tempValues });
           const newValues = await valuesService.create(tempValues);
-          console.log("Values created in useEffect:", newValues);
           setValuesResults(newValues);
           setTempValues(null); // Clear temp values after saving
           navigate("/");
