@@ -23,6 +23,11 @@ const FriendProfile = () => {
       fetchValues();
     }, [friendId]);
 
+  // ✅ Avoid errors by showing "Loading..." until `friendValues` is available
+  if (!friendValues || !friendValues.name || !friendValues.name.username) {
+    return <p>Loading friend data...</p>;
+  }
+
   const valuesArray = friendValues?.values ? 
     Object.entries(friendValues.values).sort((a, b) => b[1] - a[1]) : [];
     // console.log(valuesArray);
@@ -42,9 +47,9 @@ const FriendProfile = () => {
 
     return (
       <main>
-        {friendValues.name.username.toUpperCase()}'s Profile!
+        {friendValues.name.username}'s Profile!
       <div>
-        <h1>{friendValues.name.username.toUpperCase()}'s Values Ranking</h1>
+        <h1>{friendValues.name.username}'s Values Ranking</h1>
         <h3>Basic Values</h3>
         <ul>
           {valuesArray.map(([key, value]) => (
