@@ -51,6 +51,7 @@ const FriendProfile = () => {
       <div>
         <h1>{friendValues.name.username}'s Values Ranking</h1>
         <h3>Basic Values</h3>
+        { valuesArray ? (
         <ul>
           {valuesArray.map(([key, value]) => (
             <li key={key}>
@@ -58,8 +59,11 @@ const FriendProfile = () => {
             </li>
           ))}
         </ul>
-        
+        ) : (
+          <p>No results to show yet!</p>
+        )};
         <h3>Higher Order Values</h3>
+        { sortedHigherOrderValues ? (
         <ul>
           {sortedHigherOrderValues.map(([key, value]) => (
             <li key={key}>
@@ -67,6 +71,9 @@ const FriendProfile = () => {
             </li>
           ))}
         </ul>
+        ) : (
+          <p>"</p>
+        )};
     </div>
       </main>
     );

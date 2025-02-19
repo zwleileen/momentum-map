@@ -28,17 +28,24 @@ const Dashboard = (props) => {
   ? Object.entries(props.valuesResults.values).sort((a, b) => b[1] - a[1]).slice(0, 5)
   : [];
 
+  const formatValueName = (valueName) => {
+    const replacements = {
+      "SelfDirection": "Self-Direction",
+    };
+    return replacements[valueName] || valueName; // If found, replace; otherwise, return as is
+  };
+
   return (
     <main>
       <h1>{user.username}'s Profile</h1> 
 
       <div>
         <h2>Top 5 Values</h2>
-        {topValues.length > 0 ? (
+        {topValues.length ? (
         <ul>
           {topValues.map(([key, value]) => (
             <li key={key}>
-              <strong>{key}:</strong>{value}
+              <strong>{formatValueName(key)}:</strong>{Math.round(value)}
             </li>
           ))}
         </ul>
