@@ -21,8 +21,8 @@ const FriendsList = () => {
     <main>
       <ul>
         <h1>Others On Momentum Map!</h1>
-        {users.map((user, index) => (
-          <li key={index}>
+        {users.map((user) => (
+          <li key={user._id}>
           <Link to={`/users/${user._id}`} >{user.username}</Link>
           </li>
         ))}
