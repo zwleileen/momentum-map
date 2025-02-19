@@ -18,6 +18,7 @@ const App = () => {
   const { user } = useContext(UserContext);
   const [ valuesResults, setValuesResults] = useState({});
   const [ tempValues, setTempValues ] = useState(null);
+  const [ isCreating, setIsCreating ] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,12 +39,18 @@ const App = () => {
   const handleAddValues = async (averages) => {
     try {
       if(!user) {
+        console.log("No user, storing temp values");
         setTempValues(averages);
         navigate("/sign-up");
         return;
       }
-      
-      const newValues = await valuesService.create(averages);
+
+      let newValues;
+      if (valuesResults._id) {
+        newValues = await valuesService.update(averages);
+      } else {
+        newValues = await valuesService.create(averages);
+      }
       console.log(newValues);
       setValuesResults(newValues);
       navigate("/")
@@ -54,20 +61,23 @@ const App = () => {
 
   useEffect(() => {
     const saveTempValues = async () => {
-      if (user && tempValues) {
+      if (user && tempValues && !isCreating) {
         try {
+          setIsCreating(true); 
           const newValues = await valuesService.create(tempValues);
           setValuesResults(newValues);
           setTempValues(null); // Clear temp values after saving
           navigate("/");
         } catch (error) {
           console.error("Error saving temporary values:", error);
+        } finally {
+          setIsCreating(false); //reset flag after creation to make sure the create only occurs once
         }
       }
     };
 
     saveTempValues();
-  }, [user, tempValues, navigate]);
+  }, [user, tempValues, navigate, isCreating]);
 
 
   return (
@@ -78,7 +88,7 @@ const App = () => {
         {user ? (
           <>
             {/* Protected routes (available only to signed-in users) */}
-            <Route path="/values" element={<ValuesResults />} />
+            <Route path="/values" element={<ValuesResults valuesResults={valuesResults}/>} />
             <Route path="/values/new" element={<ValuesForm handleAddValues={handleAddValues}/>} />
             <Route path="/users" element={<FriendsList />} />
             <Route path="/users/:userId" element={<FriendProfile />} />
