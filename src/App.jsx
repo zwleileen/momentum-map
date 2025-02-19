@@ -91,7 +91,7 @@ const App = () => {
             <Route path="/values" element={<ValuesResults valuesResults={valuesResults}/>} />
             <Route path="/values/new" element={<ValuesForm handleAddValues={handleAddValues}/>} />
             <Route path="/users" element={<FriendsList />} />
-            <Route path="/users/:userId" element={<FriendProfile />} />
+            <Route path="/users/:friendId" element={<FriendProfile />} />
           </>
         ) : (
           <>
