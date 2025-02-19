@@ -1,0 +1,32 @@
+* [33m0c97d33[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mcaleb[m[33m, [m[1;31morigin/caleb[m[33m)[m Reapply "Merge branch 'main' into caleb"
+* [33maa10770[m Revert "Merge branch 'main' into caleb" okay
+* [33m4abd086[m chore: minor inconsequential update
+* [33m8b780b8[m chore: added display users list
+* [33m457dfda[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/eileen[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m edited the landing page
+* [33md1ab72a[m finished adding higher order values
+* [33m0039ae2[m added in higher order values results
+* [33mdde6ebe[m finished with values
+* [33m5d741d6[m tidied up a bit
+* [33m4100331[m debugged the values
+* [33md54c06e[m managed to update values frontend and backend
+* [33mcdf26c2[m included update values
+* [33m1c7ee7c[m changed mongoose url for values
+* [33mca9c379[m managed to show values results depending on sign in or not
+* [33mf0f6d78[m managed to fetch values and display in dashboard
+* [33m640e527[m cleaned up the codes
+* [33m4ca5a11[m managedd to send values results to backend
+* [33m0e41732[m managed to POST values to backend
+* [33md271194[m updated values form
+* [33m44547a6[m managed to save values and show in Dashboard
+* [33me9b6e99[m minor adj to valuesform before branching
+* [33md7e7bd3[m added valuesform
+* [33m83b7577[m added ValuesForm
+[31m|[m * [33m7fa11a1[m[33m ([m[1;35mrefs/stash[m[33m)[m WIP on main: d634ab6 chore: added valuesService
+[31m|[m[31m/[m[33m|[m 
+[31m|[m * [33mc20855a[m index on main: d634ab6 chore: added valuesService
+[31m|[m[31m/[m  
+* [33md634ab6[m chore: added valuesService
+* [33me222d4e[m chore: .env updated to match render host site
+* [33md16ecde[m chore: minor update to starter code
+* [33m2e74ca0[m feat: added front end starter code
+* [33meb85939[m Initial commit
