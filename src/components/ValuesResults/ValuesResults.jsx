@@ -55,7 +55,7 @@ const ValuesResults = (props) => {
     
   return (
       <main>
-        <h1>Here are your values ranking</h1>
+        <h1>Here are your values profile</h1>
         <h3>Basic Values</h3>
         { valuesArray.length > 0 ? (
         <ul>
