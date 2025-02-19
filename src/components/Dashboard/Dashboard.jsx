@@ -45,7 +45,8 @@ const Dashboard = (props) => {
         ) : (
           <p>No values to show yet</p>
         )}
-        <button onClick={() => navigate("/values")}>See more</button>
+        <button>See more</button>
+        <button onClick={() => navigate("/values/new")}>Redo Questionnaire</button>
       </div>
       <div>
       <h2>Friends</h2>
