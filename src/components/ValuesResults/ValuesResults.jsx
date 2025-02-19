@@ -24,6 +24,7 @@ const ValuesResults = (props) => {
       <main>
         <h1>Here are your values ranking</h1>
         <h3>Basic Values</h3>
+        { valuesArray ? (
         <ul>
           {valuesArray.map(([key, value]) => (
             <li key={key}>
@@ -31,8 +32,12 @@ const ValuesResults = (props) => {
             </li>
           ))}
         </ul>
-        
+        ) : (
+          <p>No values to show. Please take test.</p>
+        )};
+
         <h3>Higher Order Values</h3>
+        { sortedHigherOrderValues ? (
         <ul>
           {sortedHigherOrderValues.map(([key, value]) => (
             <li key={key}>
@@ -40,6 +45,9 @@ const ValuesResults = (props) => {
             </li>
           ))}
         </ul>
+        ) : (
+          <p>""</p>
+        )};
 
         <button onClick={() => navigate("/values/new")}>Redo Questionnaire</button>
       </main>
