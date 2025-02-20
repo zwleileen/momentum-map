@@ -7,18 +7,18 @@ const FriendsList = ({ users, setUsers }) => {
   // const [users, setUsers] = useState([]);
   const [ matches, setMatches ] = useState([]);
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const fetchedUsers = await userService.index();
-        console.log(fetchedUsers); 
-        setUsers(fetchedUsers);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchUsers();
-  }, [setUsers]);
+  // useEffect(() => {
+  //   const fetchUsers = async () => {
+  //     try {
+  //       const fetchedUsers = await userService.index();
+  //       console.log(fetchedUsers); 
+  //       setUsers(fetchedUsers);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+  //   fetchUsers();
+  // }, [setUsers]);
 
   const getTop3Values = (valuesObj) => {
     return Object.entries(valuesObj).map(([name,score]) => ({name,score})).sort((a,b) => b.score - a.score).slice(0,3);
@@ -43,21 +43,28 @@ const FriendsList = ({ users, setUsers }) => {
         console.error("Error finding matches:", error);
       }
     };
-    if (user && ValuesResults.values) {
+    if (ValuesResults.values) {
       findMatches();
     }
-  }, [user, ValuesResults])
+  }, [ValuesResults])
 
   return (
     <main>
-      <ul>
-        <h1>People with values that matched yours</h1>
-        {users.map((user) => (
-          <li key={user._id}>
-            <Link to={`/users/${user._id}`}>{user.username}</Link>
-          </li>
-        ))}
-      </ul>
+      <h1>People with values that matched yours</h1>
+      {matches.map(match => (
+      <div key={match.user._id}>
+        <h3>{match.user.name}</h3>
+        <p>Matching Values: {match.matchingValues}</p>
+        <p>Their Top 3 Values:</p>
+        <ul>
+          {match.top3Values.map(value => (
+            <li key={value.name}>
+              {value.name}: {value.score}
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
     </main>
   );
 };
