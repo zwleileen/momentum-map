@@ -37,9 +37,9 @@ const acceptFriendRequest = async (requestFriendId) => {
 };
 
 // hardcoded works
-const indexFriends = async () => {
+const indexFriends = async (userId) => {
   try {
-    const url = `${BASE_URL}`; // Construct the URL with the requesterId
+    const url = `${BASE_URL}/${userId}`; // Construct the URL with the requesterId
     const res = await fetch(url, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     });
