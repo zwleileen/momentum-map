@@ -13,7 +13,7 @@ const FriendProfile = ({ users }) => {
       try {
         if (friendId) {
           const fetchedValues = await valuesService.show(friendId);
-          // console.log(fetchedValues);
+          console.log(fetchedValues);
           setFriendValues(fetchedValues);
         }
       } catch (err) {
