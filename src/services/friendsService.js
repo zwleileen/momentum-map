@@ -36,9 +36,11 @@ const acceptFriendRequest = async (requestFriendId) => {
   }
 };
 
+// hardcoded works
 const indexFriends = async () => {
   try {
-    const res = await fetch(BASE_URL, {
+    const url = `${BASE_URL}`; // Construct the URL with the requesterId
+    const res = await fetch(url, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     });
     return res.json();

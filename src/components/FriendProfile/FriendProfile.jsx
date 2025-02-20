@@ -83,6 +83,7 @@ const FriendProfile = ({ users }) => {
     }
   };
 
+  
   return (
     <main>
       {friendValues.name.username}'s Profile!
