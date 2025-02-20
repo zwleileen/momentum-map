@@ -1,10 +1,20 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import * as valuesService from '../../services/valuesService';
+import * as friendsService from '../../services/friendsService';
 
 const FriendProfile = () => {
   const { friendId } = useParams();
   const [ friendValues, setFriendValues ] = useState();
+  const [ acceptedFriendsList, setAcceptedFriendsList ] = useState([]);
+
+  useEffect(() => {
+    const fetchFriends = async () => {
+      const data = await friendsService.indexFriends();
+      setAcceptedFriendsList(data);
+    };
+    fetchFriends();
+  }, []);
 
   useEffect(() => {
     // console.log("friendId:", friendId);
@@ -23,7 +33,6 @@ const FriendProfile = () => {
       fetchValues();
     }, [friendId]);
 
-  // ✅ Avoid errors by showing "Loading..." until `friendValues` is available
   if (!friendValues || !friendValues.name || !friendValues.name.username) {
     return <p>Loading friend data...</p>;
   }
@@ -47,7 +56,6 @@ const FriendProfile = () => {
 
     return (
       <main>
-        {friendValues.name.username}'s Profile!
       <div>
         <h1>{friendValues.name.username}'s Values Ranking</h1>
         <h3>Basic Values</h3>
@@ -67,6 +75,13 @@ const FriendProfile = () => {
             </li>
           ))}
         </ul>
+
+        <h3>{friendValues.name.username}'s Friends</h3>
+        <ul>
+        {acceptedFriendsList.map(friend => (
+          <li key={friend.id}>{friend.name}</li>
+        ))}
+      </ul>
     </div>
       </main>
     );
