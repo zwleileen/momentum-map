@@ -10,16 +10,29 @@ import FriendProfile from "./components/FriendProfile/FriendProfile";
 import FriendsList from "./components/FriendsList/FriendsList";
 import ValuesForm from "./components/ValuesForm/ValuesForm";
 import ValuesResults from "./components/ValuesResults/ValuesResults";
-import * as valuesService from './services/valuesService';
-
+import * as valuesService from "./services/valuesService";
 import { UserContext } from "./contexts/UserContext";
 
 const App = () => {
   const { user } = useContext(UserContext);
-  const [ valuesResults, setValuesResults] = useState({});
-  const [ tempValues, setTempValues ] = useState(null);
-  const [ isCreating, setIsCreating ] = useState(false);
+  const [valuesResults, setValuesResults] = useState({});
+  const [tempValues, setTempValues] = useState(null);
+  const [isCreating, setIsCreating] = useState(false);
+  const [users, setUsers] = useState([]);
   const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   const fetchUsers = async () => {
+  //     try {
+  //       const fetchedUsers = await userService.index();
+  //       console.log(fetchedUsers); // Keeping your console log
+  //       setUsers(fetchedUsers);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+  //   fetchUsers();
+  // }, []);
 
   useEffect(() => {
     const fetchValues = async () => {
@@ -38,7 +51,7 @@ const App = () => {
 
   const handleAddValues = async (averages) => {
     try {
-      if(!user) {
+      if (!user) {
         console.log("No user, storing temp values");
         setTempValues(averages);
         navigate("/sign-up");
@@ -53,9 +66,9 @@ const App = () => {
       }
       console.log(newValues);
       setValuesResults(newValues);
-      navigate("/")
+      navigate("/");
     } catch (error) {
-    console.error("Error creating values:", error);
+      console.error("Error creating values:", error);
     }
   };
 
@@ -63,7 +76,7 @@ const App = () => {
     const saveTempValues = async () => {
       if (user && tempValues && !isCreating) {
         try {
-          setIsCreating(true); 
+          setIsCreating(true);
           const newValues = await valuesService.create(tempValues);
           setValuesResults(newValues);
           setTempValues(null); // Clear temp values after saving
@@ -79,24 +92,50 @@ const App = () => {
     saveTempValues();
   }, [user, tempValues, navigate, isCreating]);
 
-
   return (
     <>
       <NavBar />
       <Routes>
-        <Route path="/" element={user ? <Dashboard valuesResults={valuesResults} setValuesResults={setValuesResults}/> : <Landing />} />
+        <Route
+          path="/"
+          element={
+            user ? (
+              <Dashboard
+                valuesResults={valuesResults}
+                setValuesResults={setValuesResults}
+              />
+            ) : (
+              <Landing />
+            )
+          }
+        />
         {user ? (
           <>
             {/* Protected routes (available only to signed-in users) */}
-            <Route path="/values" element={<ValuesResults valuesResults={valuesResults}/>} />
-            <Route path="/values/new" element={<ValuesForm handleAddValues={handleAddValues}/>} />
-            <Route path="/users" element={<FriendsList />} />
-            <Route path="/users/:friendId" element={<FriendProfile />} />
+            <Route
+              path="/values"
+              element={<ValuesResults valuesResults={valuesResults} />}
+            />
+            <Route
+              path="/values/new"
+              element={<ValuesForm handleAddValues={handleAddValues} />}
+            />
+            <Route
+              path="/users"
+              element={<FriendsList users={users} setUsers={setUsers} />}
+            />
+            <Route
+              path="/users/:friendId"
+              element={<FriendProfile users={users} />}
+            />
           </>
         ) : (
           <>
             {/* Non-user routes (available only to guests) */}
-            <Route path="/values/new" element={<ValuesForm handleAddValues={handleAddValues}/>} />
+            <Route
+              path="/values/new"
+              element={<ValuesForm handleAddValues={handleAddValues} />}
+            />
             <Route path="/sign-up" element={<SignUpForm />} />
             <Route path="/sign-in" element={<SignInForm />} />
           </>
