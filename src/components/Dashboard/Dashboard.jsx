@@ -33,7 +33,7 @@ const Dashboard = (props) => {
       <h1>{user.username}'s Profile</h1> 
 
       <div>
-        <h2>Top 5 Values</h2>
+        <h2>Your Top 5 Values</h2>
         {topValues.length > 0 ? (
         <ul>
           {topValues.map(([key, value]) => (
@@ -48,7 +48,7 @@ const Dashboard = (props) => {
         <button onClick={() => navigate("/values")}>See more</button>
       </div>
       <div>
-      <h2>Friends</h2>
+      <h2>Your Friends</h2>
         <button>All Friends</button>
         <button onClick={() => navigate("/users")}>Find Friends</button>
         <ul>
