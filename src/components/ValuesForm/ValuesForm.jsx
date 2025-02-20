@@ -55,7 +55,8 @@ const ValuesForm = (props) => {
           }
           averages[value] = total/ids.length;
       }
-      return averages;
+      
+    return averages;
   };
 
   const handleChange = (e) => {
@@ -70,8 +71,8 @@ const ValuesForm = (props) => {
       e.preventDefault();
       try {
         const averages = computeResults(valuesInputs);
-        // console.log("User's values:", averages);
-        props.handleAddValues(averages); //pass averages to parent
+        console.log("User's values:", averages);
+        props.handleAddValues(averages); //pass object to parent App.jsx
       } catch (error) {
         console.log(error)
       }
