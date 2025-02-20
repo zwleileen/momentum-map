@@ -64,7 +64,6 @@ const App = () => {
       } else {
         newValues = await valuesService.create(averages);
       }
-      console.log(newValues);
       setValuesResults(newValues);
       navigate("/");
     } catch (error) {
@@ -88,10 +87,11 @@ const App = () => {
         }
       }
     };
-
     saveTempValues();
   }, [user, tempValues, navigate, isCreating]);
 
+  console.log(valuesResults);
+  
   return (
     <>
       <NavBar />

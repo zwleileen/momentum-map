@@ -11,9 +11,9 @@ const FriendsList = ({ users, valuesResults }) => {
   }
 
   const countMatches = (userTop3, otherUserTop3) => {
-    const userValues = userTop3.map((val) => val.name);
-    const otherValues = otherUserTop3.map((val) => val.name);
-    return userValues.filter((val) => otherValues.includes(val)).length;
+    const userValues = userTop3.map((value) => value.name);
+    const otherValues = otherUserTop3.map((value) => value.name);
+    return userValues.filter((value) => otherValues.includes(value)).length;
   };
 
   useEffect(() => {
@@ -22,21 +22,25 @@ const FriendsList = ({ users, valuesResults }) => {
         if (!user || !valuesResults || !valuesResults.values) return;
 
         const userTop3 = getTop3Values(valuesResults.values);
+        // console.log(userTop3);
         const allUsersValues = await valuesService.index();
+        // console.log(allUsersValues);
 
         const matchValues = allUsersValues
           .filter((otherUser) => otherUser.name._id !== user._id)
           .map((otherUser) => {
             const otherUsersTop3 = getTop3Values(otherUser.values);
+            // console.log(otherUser.name.username);
             return {
-              user: otherUser.name,
+              user: { _id: otherUser._id, username: otherUser.name.username },
               matchedValues: countMatches(userTop3, otherUsersTop3),
               top3Values: otherUsersTop3,
             };
           })
-          .sort((a, b) => b.matchedValues - a.matchedValues); // Sort by most matches
+          .sort((a, b) => b.matchedValues - a.matchedValues); 
 
         setMatches(matchValues);
+        // console.log(matchValues);
       } catch (error) {
         console.error("Error finding matches:", error);
       }
@@ -55,8 +59,8 @@ const FriendsList = ({ users, valuesResults }) => {
             <p>Matching Values: {match.matchedValues}</p>
             <p>Their Top 3 Values:</p>
             <ul>
-              {match.top3Values.map((value) => (
-                <li key={value.name}>
+              {match.top3Values.map((value, index) => (
+                <li key={index}>
                   {value.name}: {value.score}
                 </li>
               ))}
