@@ -1,6 +1,6 @@
 const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/friends`;
 
-const sendFriendRequest = async () => {
+const sendFriendRequest = async (friendId) => {
   try {
     const response = await fetch(`${BASE_URL}/request`, {
       method: "POST",
@@ -8,6 +8,7 @@ const sendFriendRequest = async () => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "application/json",
       },
+      body: JSON.stringify({ recipientId: friendId }),
     });
     return response.json();
   } catch (error) {
@@ -17,7 +18,7 @@ const sendFriendRequest = async () => {
 
 const acceptFriendRequest = async (requestFriendId) => {
   try {
-    const response = await fetch(`${BASE_URL}/accept/:${requestFriendId}`, {
+    const response = await fetch(`${BASE_URL}/accept/${requestFriendId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

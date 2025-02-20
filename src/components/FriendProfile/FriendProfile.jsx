@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import * as valuesService from "../../services/valuesService";
-import friendRequest from "../../services/friendsService";
+import friendsService from "../../services/friendsService";
 
 const FriendProfile = ({ users }) => {
   const { friendId } = useParams();
@@ -13,7 +13,7 @@ const FriendProfile = ({ users }) => {
       try {
         if (friendId) {
           const fetchedValues = await valuesService.show(friendId);
-          console.log(fetchedValues);
+          // console.log(fetchedValues);
           setFriendValues(fetchedValues);
         }
       } catch (err) {
@@ -57,10 +57,11 @@ const FriendProfile = ({ users }) => {
     (a, b) => b[1] - a[1]
   );
 
-  const handleButton = async (event) => {
+  const handleButton = async () => {
     try {
-      const postRequest = await friendRequest.sendFriendRequest(friendId);
+      const postRequest = await friendsService.sendFriendRequest(friendId);
       console.log(friendId);
+      console.log(postRequest);
     } catch (error) {
       console.log(`Error posting friend request.`, error);
     }
