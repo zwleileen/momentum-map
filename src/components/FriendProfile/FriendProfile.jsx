@@ -30,7 +30,7 @@ const FriendProfile = ({ users }) => {
   }
 
   const valuesArray = friendValues?.values ? 
-    Object.entries(friendValues.values).sort((a, b) => b[1] - a[1]).slice(0,5) : [];
+    Object.entries(friendValues.values).sort((a, b) => b[1] - a[1]) : [];
     // console.log(valuesArray);
 
   const valuesObject = Object.fromEntries(valuesArray);
@@ -80,31 +80,27 @@ const FriendProfile = ({ users }) => {
       {friendValues.name.username}'s Profile!
       <div>
         <h1>{friendValues.name.username}'s Values Ranking</h1>
-        <h3>Basic Values</h3>
+        <h3>Top 5 Basic Values</h3>
         { valuesArray ? (
         <ul>
-          {valuesArray.map(([key, value]) => (
-            <li key={key}>
-              <strong>{formatValueName(key)}:</strong>{value}
-            </li>
+          {valuesArray.slice(0,5).map(([key]) => (
+            <li key={key}>{formatValueName(key)}</li>
           ))}
         </ul>
         ) : (
           <p>No results to show yet!</p>
-        )};
-        <h3>Higher Order Values</h3>
+        )}
+        <h3>Top 2 Higher Order Values</h3>
         { sortedHigherOrderValues ? (
         <ul>
-          {sortedHigherOrderValues.map(([key, value]) => (
-            <li key={key}>
-              <strong>{formatValueName(key)}:</strong>{value}
-            </li>
+          {sortedHigherOrderValues.slice(0,2).map(([key]) => (
+            <li key={key}>{formatValueName(key)}</li>
           ))}
         </ul>
         ) : (
           <p>"</p>
         )}
-        ;
+        
       </div>
       <button onClick={() => handleButton()}>Send Friend Request Here</button>
     </main>
