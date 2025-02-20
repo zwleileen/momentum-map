@@ -115,7 +115,7 @@ const FriendProfile = ({ users }) => {
       <h3>{friendValues.name.username}'s Friends</h3>
         <ul>
         {acceptedFriendsList.map(friend => (
-          <li key={friend._id}>{friend.recipient}</li>
+          <li key={friend._id}>{friend.recipient.username}</li>
         ))}
         </ul>
     </main>
