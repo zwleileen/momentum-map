@@ -37,6 +37,10 @@ const SignUpForm = () => {
     return !(username && password && password === passwordConf);
   };
 
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
   return (
     <main>
       <h1>Sign Up</h1>
@@ -47,7 +51,7 @@ const SignUpForm = () => {
           <input
             type='text'
             id='name'
-            value={username}
+            value={capitalizeFirstLetter(username)}
             name='username'
             onChange={handleChange}
             required

@@ -29,7 +29,7 @@ const FriendProfile = () => {
   }
 
   const valuesArray = friendValues?.values ? 
-    Object.entries(friendValues.values).sort((a, b) => b[1] - a[1]) : [];
+    Object.entries(friendValues.values).sort((a, b) => b[1] - a[1]).slice(0,5) : [];
     // console.log(valuesArray);
 
   const valuesObject = Object.fromEntries(valuesArray);
@@ -44,6 +44,16 @@ const FriendProfile = () => {
 
   const sortedHigherOrderValues = Object.entries(higherOrderValues)
     .sort((a, b) => b[1] - a[1]);
+  
+  const formatValueName = (valueName) => {
+    const replacements = {
+        "SelfDirection": "Self-Direction",
+        "SelfTranscendence": "Self-Transcendence",
+        "OpennessToChange": "Openness To Change",
+        "SelfEnhancement": "Self-Enhancement"
+    };
+      return replacements[valueName] || valueName; // If found, replace; otherwise, return as is
+  };
 
     return (
       <main>
@@ -55,7 +65,7 @@ const FriendProfile = () => {
         <ul>
           {valuesArray.map(([key, value]) => (
             <li key={key}>
-              <strong>{key}:</strong>{value}
+              <strong>{formatValueName(key)}:</strong>{value}
             </li>
           ))}
         </ul>
@@ -67,7 +77,7 @@ const FriendProfile = () => {
         <ul>
           {sortedHigherOrderValues.map(([key, value]) => (
             <li key={key}>
-              <strong>{key}:</strong>{value}
+              <strong>{formatValueName(key)}:</strong>{value}
             </li>
           ))}
         </ul>
