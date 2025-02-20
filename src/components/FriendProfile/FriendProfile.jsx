@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import * as valuesService from '../../services/valuesService';
-import * as friendsService from '../../services/friendsService';
+import * as valuesService from "../../services/valuesService";
+import friendsService from "../../services/friendsService";
 
-const FriendProfile = () => {
+const FriendProfile = ({ users }) => {
   const { friendId } = useParams();
   const [ friendValues, setFriendValues ] = useState();
   const [ acceptedFriendsList, setAcceptedFriendsList ] = useState([]);
@@ -18,20 +18,20 @@ const FriendProfile = () => {
 
   useEffect(() => {
     // console.log("friendId:", friendId);
-      const fetchValues = async () => {
-        try {
-          if (friendId) {
-            const fetchedValues = await valuesService.show(friendId);
-            console.log(fetchedValues);
-            setFriendValues(fetchedValues);
-          }
-        } catch (err) {
-          console.log("Error fetching values:", err);
+    const fetchValues = async () => {
+      try {
+        if (friendId) {
+          const fetchedValues = await valuesService.show(friendId);
+          // console.log(fetchedValues);
+          setFriendValues(fetchedValues);
         }
-      };
-  
-      fetchValues();
-    }, [friendId]);
+      } catch (err) {
+        console.log("Error fetching values:", err);
+      }
+    };
+
+    fetchValues();
+  }, [friendId]);
 
   if (!friendValues || !friendValues.name || !friendValues.name.username) {
     return <p>Loading friend data...</p>;
@@ -45,47 +45,81 @@ const FriendProfile = () => {
 
   // Compute higher-order values
   const higherOrderValues = {
-    SelfTranscendence: (valuesObject.Universalism + valuesObject.Benevolence) / 2,
-    Conservation: (valuesObject.Tradition + valuesObject.Conformity + valuesObject.Security) / 3,
+    SelfTranscendence:
+      (valuesObject.Universalism + valuesObject.Benevolence) / 2,
+    Conservation:
+      (valuesObject.Tradition +
+        valuesObject.Conformity +
+        valuesObject.Security) /
+      3,
     SelfEnhancement: (valuesObject.Achievement + valuesObject.Power) / 2,
-    OpennessToChange: (valuesObject.SelfDirection + valuesObject.Stimulation + valuesObject.Hedonism) / 3,
+    OpennessToChange:
+      (valuesObject.SelfDirection +
+        valuesObject.Stimulation +
+        valuesObject.Hedonism) /
+      3,
   };
 
   const sortedHigherOrderValues = Object.entries(higherOrderValues)
     .sort((a, b) => b[1] - a[1]);
+  
+  const formatValueName = (valueName) => {
+    const replacements = {
+        "SelfDirection": "Self-Direction",
+        "SelfTranscendence": "Self-Transcendence",
+        "OpennessToChange": "Openness To Change",
+        "SelfEnhancement": "Self-Enhancement"
+    };
+      return replacements[valueName] || valueName; // If found, replace; otherwise, return as is
+  };
 
-    return (
-      <main>
+  const handleButton = async () => {
+    try {
+      const postRequest = await friendsService.sendFriendRequest(friendId);
+      console.log(friendId);
+      console.log(postRequest);
+    } catch (error) {
+      console.log(`Error posting friend request.`, error);
+    }
+  };
+
+  return (
+    <main>
+      {friendValues.name.username}'s Profile!
       <div>
         <h1>{friendValues.name.username}'s Values Ranking</h1>
-        <h3>Basic Values</h3>
+        <h3>Top 5 Basic Values</h3>
+        { valuesArray ? (
         <ul>
-          {valuesArray.map(([key, value]) => (
-            <li key={key}>
-              <strong>{key}:</strong>{value}
-            </li>
+          {valuesArray.slice(0,5).map(([key]) => (
+            <li key={key}>{formatValueName(key)}</li>
           ))}
         </ul>
+        ) : (
+          <p>No results to show yet!</p>
+        )}
+        <h3>Top 2 Higher Order Values</h3>
+        { sortedHigherOrderValues ? (
+        <ul>
+          {sortedHigherOrderValues.slice(0,2).map(([key]) => (
+            <li key={key}>{formatValueName(key)}</li>
+          ))}
+        </ul>
+        ) : (
+          <p>"</p>
+        )}
         
-        <h3>Higher Order Values</h3>
-        <ul>
-          {sortedHigherOrderValues.map(([key, value]) => (
-            <li key={key}>
-              <strong>{key}:</strong>{value}
-            </li>
-          ))}
-        </ul>
-
-        <h3>{friendValues.name.username}'s Friends</h3>
+      </div>
+      <button onClick={() => handleButton()}>Send Friend Request Here</button>
+      
+      <h3>{friendValues.name.username}'s Friends</h3>
         <ul>
         {acceptedFriendsList.map(friend => (
           <li key={friend._id}>{friend.recipient}</li>
         ))}
-      </ul>
-    </div>
-      </main>
-    );
-  };
-  
-  export default FriendProfile;
-  
+        </ul>
+    </main>
+  );
+};
+
+export default FriendProfile;
