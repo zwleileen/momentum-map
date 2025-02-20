@@ -122,7 +122,7 @@ const App = () => {
             />
             <Route
               path="/users"
-              element={<FriendsList users={users} setUsers={setUsers} />}
+              element={<FriendsList users={users} setUsers={setUsers} valuesResults={valuesResults} />}
             />
             <Route
               path="/users/:friendId"
