@@ -21,18 +21,18 @@ const App = () => {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const fetchedUsers = await userService.index();
-        console.log(fetchedUsers); // Keeping your console log
-        setUsers(fetchedUsers);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchUsers();
-  }, []);
+  // useEffect(() => {
+  //   const fetchUsers = async () => {
+  //     try {
+  //       const fetchedUsers = await userService.index();
+  //       console.log(fetchedUsers); // Keeping your console log
+  //       setUsers(fetchedUsers);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+  //   fetchUsers();
+  // }, []);
 
   useEffect(() => {
     const fetchValues = async () => {
