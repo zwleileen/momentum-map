@@ -29,10 +29,9 @@ const FriendProfile = ({ users }) => {
     return <p>Loading friend data...</p>;
   }
 
-  const valuesArray = friendValues?.values
-    ? Object.entries(friendValues.values).sort((a, b) => b[1] - a[1])
-    : [];
-  // console.log(valuesArray);
+  const valuesArray = friendValues?.values ? 
+    Object.entries(friendValues.values).sort((a, b) => b[1] - a[1]) : [];
+    // console.log(valuesArray);
 
   const valuesObject = Object.fromEntries(valuesArray);
 
@@ -53,9 +52,18 @@ const FriendProfile = ({ users }) => {
       3,
   };
 
-  const sortedHigherOrderValues = Object.entries(higherOrderValues).sort(
-    (a, b) => b[1] - a[1]
-  );
+  const sortedHigherOrderValues = Object.entries(higherOrderValues)
+    .sort((a, b) => b[1] - a[1]);
+  
+  const formatValueName = (valueName) => {
+    const replacements = {
+        "SelfDirection": "Self-Direction",
+        "SelfTranscendence": "Self-Transcendence",
+        "OpennessToChange": "Openness To Change",
+        "SelfEnhancement": "Self-Enhancement"
+    };
+      return replacements[valueName] || valueName; // If found, replace; otherwise, return as is
+  };
 
   const handleButton = async () => {
     try {
@@ -72,33 +80,27 @@ const FriendProfile = ({ users }) => {
       {friendValues.name.username}'s Profile!
       <div>
         <h1>{friendValues.name.username}'s Values Ranking</h1>
-        <h3>Basic Values</h3>
-        {valuesArray ? (
-          <ul>
-            {valuesArray.map(([key, value]) => (
-              <li key={key}>
-                <strong>{key}:</strong>
-                {value}
-              </li>
-            ))}
-          </ul>
+        <h3>Top 5 Basic Values</h3>
+        { valuesArray ? (
+        <ul>
+          {valuesArray.slice(0,5).map(([key]) => (
+            <li key={key}>{formatValueName(key)}</li>
+          ))}
+        </ul>
         ) : (
           <p>No results to show yet!</p>
         )}
-        ;<h3>Higher Order Values</h3>
-        {sortedHigherOrderValues ? (
-          <ul>
-            {sortedHigherOrderValues.map(([key, value]) => (
-              <li key={key}>
-                <strong>{key}:</strong>
-                {value}
-              </li>
-            ))}
-          </ul>
+        <h3>Top 2 Higher Order Values</h3>
+        { sortedHigherOrderValues ? (
+        <ul>
+          {sortedHigherOrderValues.slice(0,2).map(([key]) => (
+            <li key={key}>{formatValueName(key)}</li>
+          ))}
+        </ul>
         ) : (
           <p>"</p>
         )}
-        ;
+        
       </div>
       <button onClick={() => handleButton()}>Send Friend Request Here</button>
     </main>

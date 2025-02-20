@@ -56,10 +56,10 @@ const ValuesResults = (props) => {
   return (
       <main>
         <h1>Here are your values profile</h1>
-        <h3>Basic Values</h3>
+        <h3>Top 5 Basic Values</h3>
         { valuesArray.length > 0 ? (
         <ul>
-          {valuesArray.map(([key]) => (
+          {valuesArray.slice(0,5).map(([key]) => (
             <li key={key}>
               <strong>{formatValueName(key)}:</strong>{getDescription(key)}
             </li>
@@ -69,10 +69,10 @@ const ValuesResults = (props) => {
           <p>No values to show. Please take test.</p>
         )}
 
-        <h3>Higher Order Values</h3>
+        <h3>Top 2 Higher Order Values</h3>
         { sortedHigherOrderValues.length > 0 ? (
         <ul>
-          {sortedHigherOrderValues.map(([key]) => (
+          {sortedHigherOrderValues.slice(0,2).map(([key]) => (
             <li key={key}>
               <strong>{formatValueName(key)}:</strong>{getDescription(key)}
             </li>
