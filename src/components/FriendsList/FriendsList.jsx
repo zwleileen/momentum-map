@@ -33,7 +33,7 @@ const FriendsList = ({ users, valuesResults }) => {
             const otherUsersTop3 = getTop3Values(otherUser.values);
             // console.log(otherUser.name.username);
             return {
-              user: { _id: otherUser._id, username: otherUser.name.username },
+              user: { _id: otherUser.name._id, username: otherUser.name.username },
               matchedValues: countMatches(userTop3, otherUsersTop3),
               top3Values: otherUsersTop3,
             };
@@ -49,6 +49,7 @@ const FriendsList = ({ users, valuesResults }) => {
 
     findMatches();
   }, [user, valuesResults]);
+
 
   return (
     <main>

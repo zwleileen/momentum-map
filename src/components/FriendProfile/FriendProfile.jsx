@@ -24,7 +24,6 @@ const FriendProfile = ({ users }) => {
     fetchValues();
   }, [friendId]);
 
-  // ✅ Avoid errors by showing "Loading..." until `friendValues` is available
   if (!friendValues || !friendValues.name || !friendValues.name.username) {
     return <p>Loading friend data...</p>;
   }

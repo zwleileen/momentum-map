@@ -90,7 +90,7 @@ const App = () => {
     saveTempValues();
   }, [user, tempValues, navigate, isCreating]);
 
-  console.log(valuesResults);
+  // console.log(valuesResults);
   
   return (
     <>
@@ -126,7 +126,7 @@ const App = () => {
             />
             <Route
               path="/users/:friendId"
-              element={<FriendProfile users={users} />}
+              element={<FriendProfile />}
             />
           </>
         ) : (
