@@ -35,4 +35,4 @@ const acceptFriendRequest = async (requestFriendId) => {
   }
 };
 
-export { sendFriendRequest, acceptFriendRequest };
+export default { sendFriendRequest, acceptFriendRequest };

@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import * as valuesService from "../../services/valuesService";
+import friendRequest from "../../services/friendsService";
 
-const FriendProfile = () => {
+const FriendProfile = ({ users }) => {
   const { friendId } = useParams();
   const [friendValues, setFriendValues] = useState();
 
@@ -56,7 +57,14 @@ const FriendProfile = () => {
     (a, b) => b[1] - a[1]
   );
 
-  const handleButton = (event) => {};
+  const handleButton = async (event) => {
+    try {
+      const postRequest = await friendRequest.sendFriendRequest(friendId);
+      console.log(friendId);
+    } catch (error) {
+      console.log(`Error posting friend request.`, error);
+    }
+  };
 
   return (
     <main>
@@ -64,28 +72,34 @@ const FriendProfile = () => {
       <div>
         <h1>{friendValues.name.username}'s Values Ranking</h1>
         <h3>Basic Values</h3>
-        <ul>
-          {valuesArray.map(([key, value]) => (
-            <li key={key}>
-              <strong>{key}:</strong>
-              {value}
-            </li>
-          ))}
-        </ul>
-
-        <h3>Higher Order Values</h3>
-        <ul>
-          {sortedHigherOrderValues.map(([key, value]) => (
-            <li key={key}>
-              <strong>{key}:</strong>
-              {value}
-            </li>
-          ))}
-        </ul>
+        {valuesArray ? (
+          <ul>
+            {valuesArray.map(([key, value]) => (
+              <li key={key}>
+                <strong>{key}:</strong>
+                {value}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No results to show yet!</p>
+        )}
+        ;<h3>Higher Order Values</h3>
+        {sortedHigherOrderValues ? (
+          <ul>
+            {sortedHigherOrderValues.map(([key, value]) => (
+              <li key={key}>
+                <strong>{key}:</strong>
+                {value}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>"</p>
+        )}
+        ;
       </div>
-      {/* adding button here  */}
-      <button onClick={() => handleButton()}>Tenery IFELSE here</button>{" "}
-      {/*add tenary ifelse to show if friend or foe*/}
+      <button onClick={() => handleButton()}>Send Friend Request Here</button>
     </main>
   );
 };
