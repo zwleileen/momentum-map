@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import * as userService from "../../services/userService";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import ValuesResults from "../ValuesResults/ValuesResults";
 
 const FriendsList = ({ users, setUsers }) => {

@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 const ValuesResults = (props) => {
   const navigate = useNavigate();
@@ -80,7 +80,7 @@ const ValuesResults = (props) => {
         </ul>
         ) : (
           <p>""</p>
-        )};
+        )}
 
         <button onClick={() => navigate("/values/new")}>Redo Questionnaire</button>
       </main>

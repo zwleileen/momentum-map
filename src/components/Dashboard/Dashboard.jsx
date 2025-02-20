@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from 'react';
 import { UserContext } from '../../contexts/UserContext';
 import * as userService from '../../services/userService';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = (props) => {
   const { user } = useContext(UserContext);

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Routes, Route, useNavigate } from "react-router";
+import { Routes, Route, useNavigate } from "react-router-dom";
 
 import NavBar from "./components/NavBar/NavBar";
 import SignUpForm from "./components/SignUpForm/SignUpForm";
