@@ -9,7 +9,7 @@ const Dashboard = (props) => {
   const { user } = useContext(UserContext);
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
-  const [showFriend, setShowFriend] = useState(false); // using this state to toggle between showFriends or showRequests
+  const [showFriend, setShowFriend] = useState(true); // using this state to toggle between showFriends or showRequests
 
   useEffect(() => {
     const fetchUsers = async () => {
