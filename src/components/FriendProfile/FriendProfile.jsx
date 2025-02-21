@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import * as valuesService from "../../services/valuesService";
 import friendsService from "../../services/friendsService";
 import FriendShow from "../FriendShow/FriendShow";
@@ -23,7 +23,7 @@ const FriendProfile = ({ users }) => {
       try {
         if (friendId) {
           const fetchedValues = await valuesService.show(friendId);
-          // console.log(fetchedValues);
+          console.log(fetchedValues);
           setFriendValues(fetchedValues);
         }
       } catch (err) {

@@ -1,33 +1,79 @@
-import { useEffect } from "react";
-import * as userService from "../../services/userService";
-import { Link } from "react-router";
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../../contexts/UserContext";
+import * as valuesService from "../../services/valuesService";
+import { Link } from "react-router-dom"; 
 
-const FriendsList = ({ users, setUsers }) => {
-  // const [users, setUsers] = useState([]);
+const FriendsList = ({ users, valuesResults }) => {
+  const { user } = useContext(UserContext);
+  const [ matches, setMatches ] = useState([]);
+
+  const getTop3Values = (valuesObj) => {
+    return Object.entries(valuesObj).map(([name,score]) => ({name,score})).sort((a,b) => b.score - a.score).slice(0,3);
+  }
+
+  const countMatches = (userTop3, otherUserTop3) => {
+    const userValues = userTop3.map((value) => value.name);
+    const otherValues = otherUserTop3.map((value) => value.name);
+    return userValues.filter((value) => otherValues.includes(value)).length;
+  };
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const findMatches = async () => {
       try {
-        const fetchedUsers = await userService.index();
-        console.log(fetchedUsers); //amos testing
-        setUsers(fetchedUsers);
-      } catch (err) {
-        console.log(err);
+        if (!user || !valuesResults || !valuesResults.values) return;
+
+        const userTop3 = getTop3Values(valuesResults.values);
+        // console.log(userTop3);
+        const allUsersValues = await valuesService.index();
+        // console.log(allUsersValues);
+
+        const matchValues = allUsersValues
+          .filter((otherUser) => otherUser.name._id !== user._id)
+          .map((otherUser) => {
+            const otherUsersTop3 = getTop3Values(otherUser.values);
+            // console.log(otherUser.name.username);
+            return {
+              user: { _id: otherUser.name._id, username: otherUser.name.username },
+              matchedValues: countMatches(userTop3, otherUsersTop3),
+              top3Values: otherUsersTop3,
+            };
+          })
+          .sort((a, b) => b.matchedValues - a.matchedValues); 
+
+        setMatches(matchValues);
+        // console.log(matchValues);
+      } catch (error) {
+        console.error("Error finding matches:", error);
       }
     };
-    fetchUsers();
-  }, [setUsers]);
+
+    findMatches();
+  }, [user, valuesResults]);
+
 
   return (
     <main>
-      <ul>
-        <h1>Others On Momentum Map!</h1>
-        {users.map((user) => (
-          <li key={user._id}>
-            <Link to={`/users/${user._id}`}>{user.username}</Link>
-          </li>
-        ))}
-      </ul>
+      <h1>People with values that matched yours</h1>
+      {matches.length > 0 ? (
+        matches.map((match) => (
+          <div key={match.user._id}>
+            <h3>
+              <Link to={`/users/${match.user._id}`}>{match.user.username}</Link>
+            </h3>
+            <p>Matching Values: {match.matchedValues}</p>
+            <p>Their Top 3 Values:</p>
+            <ul>
+              {match.top3Values.map((value, index) => (
+                <li key={index}>
+                  {value.name}: {value.score}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      ) : (
+        <p>No matches found.</p>
+      )}
     </main>
   );
 };

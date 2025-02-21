@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Routes, Route, useNavigate } from "react-router";
+import { Routes, Route, useNavigate } from "react-router-dom";
 
 import NavBar from "./components/NavBar/NavBar";
 import SignUpForm from "./components/SignUpForm/SignUpForm";
@@ -64,7 +64,6 @@ const App = () => {
       } else {
         newValues = await valuesService.create(averages);
       }
-      console.log(newValues);
       setValuesResults(newValues);
       navigate("/");
     } catch (error) {
@@ -88,10 +87,11 @@ const App = () => {
         }
       }
     };
-
     saveTempValues();
   }, [user, tempValues, navigate, isCreating]);
 
+  // console.log(valuesResults);
+  
   return (
     <>
       <NavBar />
@@ -122,11 +122,11 @@ const App = () => {
             />
             <Route
               path="/users"
-              element={<FriendsList users={users} setUsers={setUsers} />}
+              element={<FriendsList users={users} setUsers={setUsers} valuesResults={valuesResults} />}
             />
             <Route
               path="/users/:friendId"
-              element={<FriendProfile users={users} />}
+              element={<FriendProfile />}
             />
           </>
         ) : (

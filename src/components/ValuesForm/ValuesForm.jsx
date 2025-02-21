@@ -55,7 +55,8 @@ const ValuesForm = (props) => {
           }
           averages[value] = total/ids.length;
       }
-      return averages;
+      
+    return averages;
   };
 
   const handleChange = (e) => {
@@ -70,8 +71,8 @@ const ValuesForm = (props) => {
       e.preventDefault();
       try {
         const averages = computeResults(valuesInputs);
-        // console.log("User's values:", averages);
-        props.handleAddValues(averages); //pass averages to parent
+        console.log("User's values:", averages);
+        props.handleAddValues(averages); //pass object to parent App.jsx
       } catch (error) {
         console.log(error)
       }
@@ -82,9 +83,11 @@ const ValuesForm = (props) => {
     <form onSubmit={handleSubmit}>
         <h1>Clarifying your values</h1>
         <p>This questionnaire consists of 21 questions taken from the Schwartz Theory of Basic Values. Please respond to all the questions below by rating each of them 1 to 5, 5 being most like you and 1 being least like you.</p>
+        
         {valuesQuestions.map(({ id, label }) => (
         <div key={id} style={{marginBottom:"15px"}}>
-            <label htmlFor={id} style={{ display: "block", fontWeight: "bold" }}>{label}</label>
+            <label>
+              {label}
             <select required name={id} id={id} onChange={handleChange}>
                 <option value="0">Select</option>
                 <option value="5">Very much like me</option>
@@ -93,8 +96,10 @@ const ValuesForm = (props) => {
                 <option value="2">A little like me</option>
                 <option value="1">Not like me</option>
             </select>
+            </label>
         </div> 
         ))}
+
         <button type="submit" style={{ marginTop: "20px", padding: "10px", fontSize: "16px" }}>
         Submit
       </button>

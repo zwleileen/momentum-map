@@ -16,7 +16,11 @@ const show = async (userId) => {
     const res = await fetch(`${BASE_URL}/${userId}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     });
-    return res.json();
+
+    const responseData = await res.json();
+    // console.log("API Response:", responseData);
+
+    return responseData;
   } catch (error) {
     console.log(error);
   }

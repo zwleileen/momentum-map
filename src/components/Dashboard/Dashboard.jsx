@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import * as userService from "../../services/userService";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import FriendRequest from "../FriendRequest/FriendRequest";
 import FriendShow from "../FriendShow/FriendShow";
 
@@ -52,14 +52,11 @@ const Dashboard = (props) => {
       <div>
         <h2>Top 5 Values</h2>
         {topValues.length ? (
-          <ul>
-            {topValues.map(([key, value]) => (
-              <li key={key}>
-                <strong>{formatValueName(key)}:</strong>
-                {Math.round(value)}
-              </li>
-            ))}
-          </ul>
+        <ul>
+          {topValues.map(([key]) => (
+            <li key={key}>{formatValueName(key)}</li>
+          ))}
+        </ul>
         ) : (
           <p>No values to show yet</p>
         )}
