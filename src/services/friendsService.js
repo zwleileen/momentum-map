@@ -36,4 +36,30 @@ const acceptFriendRequest = async (requestFriendId) => {
   }
 };
 
-export default { sendFriendRequest, acceptFriendRequest };
+// hardcoded works
+// const indexFriends = async () => {
+//   try {
+//     const url = `${BASE_URL}`; // Construct the URL with requesterId
+//     const res = await fetch(url, {
+//       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+//     });
+//     return res.json();
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+const indexFriends = async (userId) => {
+  try {
+    const url = `${BASE_URL}/${userId}`;
+    // console.log("URL",url);
+    const res = await fetch(url, {
+      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    });
+    return res.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export default { sendFriendRequest, acceptFriendRequest, indexFriends };

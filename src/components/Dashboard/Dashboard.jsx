@@ -52,11 +52,14 @@ const Dashboard = (props) => {
       <div>
         <h2>Top 5 Values</h2>
         {topValues.length ? (
-        <ul>
-          {topValues.map(([key]) => (
-            <li key={key}>{formatValueName(key)}</li>
-          ))}
-        </ul>
+          <ul>
+            {topValues.map(([key, value]) => (
+              <li key={key}>
+                <strong>{formatValueName(key)}:</strong>
+                {Math.round(value)}
+              </li>
+            ))}
+          </ul>
         ) : (
           <p>No values to show yet</p>
         )}
@@ -64,7 +67,7 @@ const Dashboard = (props) => {
       </div>
       <div>
         {showFriend ? (
-          <FriendShow users={users} />
+          <FriendShow users={users} user={user} />
         ) : (
           <FriendRequest user={user} />
         )}
