@@ -30,7 +30,7 @@ const FriendShow = ( {friendId, friendName} ) => {
   return (
     <>
       {/* <h2>{friendId.username}'s Friends</h2> */}
-      <h2>{friendName}'s Friends</h2>
+      <h1>{friendName}'s Friends</h1>
       <ul>{
         acceptedFriendsList.map((friend)=>(
           <li key={friend._id}>{friend.recipient.username}</li>

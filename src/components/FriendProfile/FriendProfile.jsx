@@ -113,11 +113,6 @@ const FriendProfile = ({ users }) => {
           <p>"</p>
         )}
       </div>
-
-      <div>
-        <h2>Caleb's friends component goes here!</h2>
-      </div>
-
       <button onClick={() => handleButton()}>Send Friend Request Here</button>
       {/* <FriendShow friendId={friendId} friendValues={friendValues} /> */}
       <FriendShow friendId={friendId} friendName={friendValues.name.username} />
