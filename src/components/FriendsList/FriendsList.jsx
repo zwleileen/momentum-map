@@ -49,13 +49,11 @@ const FriendsList = ({ users, valuesResults }) => {
             <h3>
               <Link to={`/users/${match.user._id}`}>{match.user.username}</Link>
             </h3>
-            <p>Matching Values: {match.matchedValues}</p>
+            {/* <p>Matching Values: {match.matchedValues}</p> */}
             <p>Their Top 3 Values:</p>
             <ul>
               {match.top3Values.map((value, index) => (
-                <li key={index}>
-                  {value.name}: {value.score}
-                </li>
+                <li key={index}>{value.name}</li>
               ))}
             </ul>
           </div>
