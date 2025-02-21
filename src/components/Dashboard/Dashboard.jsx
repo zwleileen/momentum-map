@@ -1,13 +1,15 @@
-import { useEffect, useState, useContext } from 'react';
-import { UserContext } from '../../contexts/UserContext';
-import * as userService from '../../services/userService';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState, useContext } from "react";
+import { UserContext } from "../../contexts/UserContext";
+import * as userService from "../../services/userService";
+import { useNavigate } from "react-router";
+import FriendRequest from "../FriendRequest/FriendRequest";
+import FriendShow from "../FriendShow/FriendShow";
 
 const Dashboard = (props) => {
   const { user } = useContext(UserContext);
-  const [ users, setUsers ] = useState([]);
+  const [users, setUsers] = useState([]);
   const navigate = useNavigate();
-  
+  const [showFriend, setShowFriend] = useState(false); // using this state to toggle between showFriends or showRequests
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -17,27 +19,35 @@ const Dashboard = (props) => {
           setUsers(fetchedUsers);
         }
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
-    }
+    };
     if (user) fetchUsers();
   }, [user]);
 
-
-  const topValues = props.valuesResults && props.valuesResults.values
-  ? Object.entries(props.valuesResults.values).sort((a, b) => b[1] - a[1]).slice(0, 5)
-  : [];
+  const topValues =
+    props.valuesResults && props.valuesResults.values
+      ? Object.entries(props.valuesResults.values)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 5)
+      : [];
 
   const formatValueName = (valueName) => {
     const replacements = {
-      "SelfDirection": "Self-Direction",
+      SelfDirection: "Self-Direction",
     };
     return replacements[valueName] || valueName; // If found, replace; otherwise, return as is
   };
 
+  const handleButton = () => {
+    //consoditating click to navigate to /users and  toggle state showFriend and setShowFriend.
+    // navigate("/users");
+    setShowFriend(!showFriend);
+  };
+
   return (
     <main>
-      <h1>{user.username}'s Profile</h1> 
+      <h1>{user.username}'s Profile</h1>
 
       <div>
         <h2>Top 5 Values</h2>
@@ -53,14 +63,31 @@ const Dashboard = (props) => {
         <button onClick={() => navigate("/values")}>See more</button>
       </div>
       <div>
-      <h2>Friends</h2>
-        <button>All Friends</button>
-        <button onClick={() => navigate("/users")}>Find Friends</button>
+        {showFriend ? (
+          <FriendShow users={users} />
+        ) : (
+          <FriendRequest user={user} />
+        )}
+        {/* <FriendShow users={users} />
+        <FriendRequest /> */}
+        {/* <h2>Friends</h2>
+
         <ul>
-          {users.map(user => (
+          {users.map((user) => (
             <li key={user._id}>{user.username}</li>
           ))}
-        </ul>
+        </ul> */}
+        {showFriend ? (
+          <button onClick={() => handleButton()}>Requests</button>
+        ) : (
+          <button onClick={() => handleButton()}>Friends</button>
+        )}
+
+        <button onClick={() => navigate("/users")}>Find Friends</button>
+
+        {/* <button onClick={() => handleButton()}>Requests/Friends</button>
+        <button onClick={() => handleButton()}>Requests/Friends</button>
+        <button onClick={() => navigate("/users")}>Find Friends</button> */}
       </div>
     </main>
   );
