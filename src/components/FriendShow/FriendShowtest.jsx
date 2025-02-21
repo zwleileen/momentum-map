@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import friendsService from "../../services/friendsService";
 import { useState } from "react";
 
-const FriendShowtest = ({friendValues}) => {
+const FriendShowtest = ( {friendValues} ) => {
   const [acceptedFriendsList, setAcceptedFriendsList] = useState([]);
   const userId = friendValues._id;
   useEffect(() => {
@@ -13,8 +13,6 @@ const FriendShowtest = ({friendValues}) => {
     };
     fetchFriends();
   }, []);
-
-  console.log("USERID", friendValues._id); 
 
   return (
     <>

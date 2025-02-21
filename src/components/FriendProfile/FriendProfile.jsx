@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import * as valuesService from "../../services/valuesService";
 import friendsService from "../../services/friendsService";
-import FriendShowtest from "../FriendShow/FriendShowtest";
+import FriendShow from "../FriendShow/FriendShow";
 
 const FriendProfile = ({ users }) => {
   const { friendId } = useParams();
@@ -113,7 +113,7 @@ const FriendProfile = ({ users }) => {
         
       </div>
       <button onClick={() => handleButton()}>Send Friend Request Here</button>
-      <FriendShowtest friendValues={friendValues.name}/>
+      <FriendShow friendValues={friendValues.name}/>
       {/* <h3>{friendValues.name.username}'s Friends</h3>
         <ul>
         {acceptedFriendsList.map(friend => (
