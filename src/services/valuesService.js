@@ -26,6 +26,21 @@ const show = async (userId) => {
   }
 };
 
+const getMatches = async () => {
+  try {
+    const res = await fetch(`${BASE_URL}/matches`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    });
+
+    const responseData = await res.json();
+    // console.log("API Response:", responseData);
+
+    return responseData;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const create = async (valuesResults) => {
   try {
     const res = await fetch(BASE_URL, {
@@ -76,4 +91,4 @@ const update = async (valuesResults) => {
   }
 };
 
-export { index, show, create, update };
+export { index, show, getMatches, create, update };

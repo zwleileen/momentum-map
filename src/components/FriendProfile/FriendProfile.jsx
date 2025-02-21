@@ -24,6 +24,8 @@ const FriendProfile = ({ users }) => {
     fetchValues();
   }, [friendId]);
 
+  console.log("Users passed to FriendShow:", users); // ✅ Check if users exist
+
   if (!friendValues || !friendValues.name || !friendValues.name.username) {
     return <p>Loading friend data...</p>;
   }
@@ -99,8 +101,12 @@ const FriendProfile = ({ users }) => {
         ) : (
           <p>"</p>
         )}
-        
       </div>
+
+      <div>
+        <h2>Caleb's friends component goes here!</h2>
+      </div>
+
       <button onClick={() => handleButton()}>Send Friend Request Here</button>
     </main>
   );
