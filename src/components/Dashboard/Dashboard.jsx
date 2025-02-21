@@ -64,7 +64,7 @@ const Dashboard = (props) => {
       </div>
       <div>
         {showFriend ? (
-          <FriendShow users={users} user={user} />
+          <FriendShow friendId={user._id} friendName={user.username} />
         ) : (
           <FriendRequest user={user} />
         )}

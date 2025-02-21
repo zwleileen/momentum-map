@@ -14,11 +14,13 @@ const NavBar = () => {
   return (
     <nav>
       {user ? (
+        <>
+          <h2>Welcome, {user.username}</h2>
         <ul>
-          <li>Welcome, {user.username}</li>
           <li><Link to='/'>Dashboard</Link></li>
           <li><Link to='/' onClick={handleSignOut}>Sign Out</Link></li>
         </ul>
+        </>
       ) : (
         <ul>
           <li><Link to='/'>Home</Link></li>

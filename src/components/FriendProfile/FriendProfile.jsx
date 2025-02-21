@@ -89,9 +89,9 @@ const FriendProfile = ({ users }) => {
   
   return (
     <main>
-      {friendValues.name.username}'s Profile!
+      <h1>{friendValues.name.username}'s Profile!</h1>
       <div>
-        <h1>{friendValues.name.username}'s Values Ranking</h1>
+        <h2>{friendValues.name.username}'s Values Ranking</h2>
         <h3>Top 5 Basic Values</h3>
         { valuesArray ? (
         <ul>
