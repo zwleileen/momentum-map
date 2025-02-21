@@ -53,11 +53,8 @@ const Dashboard = (props) => {
         <h2>Top 5 Values</h2>
         {topValues.length ? (
           <ul>
-            {topValues.map(([key, value]) => (
-              <li key={key}>
-                <strong>{formatValueName(key)}:</strong>
-                {Math.round(value)}
-              </li>
+            {topValues.map(([key]) => (
+              <li key={key}>{formatValueName(key)}</li>
             ))}
           </ul>
         ) : (
