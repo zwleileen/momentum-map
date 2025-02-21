@@ -9,13 +9,13 @@ const FriendProfile = ({ users }) => {
   const [ friendValues, setFriendValues ] = useState();
   const [ acceptedFriendsList, setAcceptedFriendsList ] = useState([]);
 
-  useEffect(() => {
-    const fetchFriends = async () => {
-      const data = await friendsService.indexFriends();
-      setAcceptedFriendsList(data);
-    };
-    fetchFriends();
-  }, []);
+  // useEffect(() => {
+  //   const fetchFriends = async () => {
+  //     const data = await friendsService.indexFriends();
+  //     setAcceptedFriendsList(data);
+  //   };
+  //   fetchFriends();
+  // }, []);
 
   useEffect(() => {
     // console.log("friendId:", friendId);
@@ -23,14 +23,14 @@ const FriendProfile = ({ users }) => {
       try {
         if (friendId) {
           const fetchedValues = await valuesService.show(friendId);
-          console.log(fetchedValues);
+          // console.log(fetchedValues);
           setFriendValues(fetchedValues);
         }
       } catch (err) {
         console.log("Error fetching values:", err);
       }
     };
-
+    
     fetchValues();
   }, [friendId]);
 
@@ -113,7 +113,8 @@ const FriendProfile = ({ users }) => {
         
       </div>
       <button onClick={() => handleButton()}>Send Friend Request Here</button>
-      <FriendShow friendValues={friendValues.name}/>
+      {/* <FriendShow friendId={friendId} friendValues={friendValues} /> */}
+      <FriendShow friendId={friendId} friendName={friendValues.name.username} />
       {/* <h3>{friendValues.name.username}'s Friends</h3>
         <ul>
         {acceptedFriendsList.map(friend => (
