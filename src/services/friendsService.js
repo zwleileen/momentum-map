@@ -62,7 +62,7 @@ const indexFriends = async (userId) => {
   }
 };
 
-const indexRequestFriends = async (bool) => {
+const indexRequestFriends = async (boolString) => {
   try {
     const response = await fetch(`${BASE_URL}/friends/accept`, {
       method: "PUT",
@@ -70,10 +70,10 @@ const indexRequestFriends = async (bool) => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
-      body: JSON.stringify(response),
+      body: JSON.stringify({ status: boolString }), //! TESTING HARDCODED FOR  NOW
     });
 
-    if (!response) {
+    if (!response.ok) {
       throw new Error(`Failed in listing Friend Request List.`);
     }
 

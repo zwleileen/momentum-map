@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useCallback } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import * as userService from "../../services/userService";
 import { useNavigate } from "react-router-dom";
@@ -66,7 +66,7 @@ const Dashboard = (props) => {
         {showFriend ? (
           <FriendShow friendId={user._id} friendName={user.username} />
         ) : (
-          <FriendRequest user={user} />
+          <FriendRequest showFriend={showFriend} />
         )}
         {/* <FriendShow users={users} />
         <FriendRequest /> */}
