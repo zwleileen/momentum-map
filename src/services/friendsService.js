@@ -54,7 +54,7 @@ const indexFriends = async (userId) => {
     const url = `${BASE_URL}/${userId}`;
     // console.log("URL",url);
     const res = await fetch(url, {
-      headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
     });
     return res.json();
   } catch (error) {
@@ -62,4 +62,30 @@ const indexFriends = async (userId) => {
   }
 };
 
-export default { sendFriendRequest, acceptFriendRequest, indexFriends };
+const indexRequestFriends = async (bool) => {
+  try {
+    const response = await fetch(`${BASE_URL}/friends/accept`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(response),
+    });
+
+    if (!response) {
+      throw new Error(`Failed in listing Friend Request List.`);
+    }
+
+    return response.json();
+  } catch (err) {
+    throw new Error(`Failed in listing Friend Request List: ${err.message}`);
+  }
+};
+
+export default {
+  sendFriendRequest,
+  acceptFriendRequest,
+  indexFriends,
+  indexRequestFriends,
+};
