@@ -68,7 +68,7 @@ const SignInForm = () => {
       />
       
       <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
-        <Button variant="outlined">Sign In</Button>
+        <Button variant="outlined" onClick={handleSubmit}>Sign In</Button>
         <Button variant="outlined" onClick={() => navigate('/')}>Cancel</Button>
       </Stack>
       </Box>

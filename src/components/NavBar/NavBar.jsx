@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { UserContext } from '../../contexts/UserContext';
 
 const NavBar = () => {
@@ -14,11 +14,13 @@ const NavBar = () => {
   return (
     <nav className="navbar">
       {user ? (
+        <>
         <ul>
-          <li>Welcome, {user.username}</li>
           <li><Button component={RouterLink} to='/' variant="outlined">Dashboard</Button></li>
           <li><Button component={RouterLink} to='/' variant="outlined" onClick={handleSignOut}>Sign Out</Button></li>
         </ul>
+        <Typography variant="h4">Welcome, {user.username}</Typography>
+        </>
       ) : (
         <ul>
           <li><Button component={RouterLink} to='/' variant="outlined">Home</Button></li>
