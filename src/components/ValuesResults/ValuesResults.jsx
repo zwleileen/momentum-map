@@ -7,7 +7,6 @@ import {
   List,
   ListItem,
   ListItemText,
-  Paper,
 } from '@mui/material';
 
 const ValuesResults = (props) => {
