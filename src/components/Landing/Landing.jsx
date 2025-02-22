@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom"
+import { Button } from '@mui/material';
 
 const Landing = () => {
 
@@ -11,7 +12,7 @@ const Landing = () => {
       <p>Values generally refer to what we think are important to us in life. They may be beliefs or desirable goals. Some values may serve as standards or criteria that guide decision making.</p>
       <p>Each of us ranks values differently and sometimes our values contradict and we need to make tradeoffs.</p>
       <p>Clarifying what is important to us and our friends will help us to relate with one another better. Take the test and find out!</p>
-      <button className="landing-button" onClick={() => navigate(`/values/new`)}>Take test</button>
+      <Button variant="outlined" onClick={() => navigate(`/values/new`)}>Take test</Button>
       </main>
   );
 };

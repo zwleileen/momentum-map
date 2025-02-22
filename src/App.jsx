@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 import './App.css'
 import NavBar from "./components/NavBar/NavBar";
@@ -21,19 +22,6 @@ const App = () => {
   const [isCreating, setIsCreating] = useState(false);
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   const fetchUsers = async () => {
-  //     try {
-  //       const fetchedUsers = await userService.index();
-  //       console.log(fetchedUsers); // Keeping your console log
-  //       setUsers(fetchedUsers);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  //   fetchUsers();
-  // }, []);
 
   useEffect(() => {
     const fetchValues = async () => {
@@ -92,9 +80,14 @@ const App = () => {
   }, [user, tempValues, navigate, isCreating]);
 
   // console.log(valuesResults);
+
+  const theme = createTheme({
+    //customise theme settings here
+  });
   
   return (
     <>
+    <ThemeProvider theme={theme}>
       <NavBar />
       <Routes>
         <Route
@@ -143,6 +136,7 @@ const App = () => {
         )}
         <Route path="*" element={<h1>Oops, nothing here!</h1>} />
       </Routes>
+    </ThemeProvider>
     </>
   );
 };
