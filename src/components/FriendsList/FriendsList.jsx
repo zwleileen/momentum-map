@@ -2,6 +2,16 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import * as valuesService from "../../services/valuesService";
 import { Link } from "react-router-dom"; 
+import {
+  Container,
+  Typography,
+  Box,
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  Paper
+} from '@mui/material';
 
 const FriendsList = ({ users, valuesResults }) => {
   const { user } = useContext(UserContext);
@@ -31,8 +41,8 @@ const FriendsList = ({ users, valuesResults }) => {
 
 
   return (
-    <main>
-      <h1>People with values that matched yours</h1>
+    <Container maxWidth="md">
+      <Typography variant="h4" sx={{mt:4}}>People with values that matched yours</Typography>
 
       <div>
         <label htmlFor="exactMatches">No. of matching values: </label>
@@ -61,7 +71,7 @@ const FriendsList = ({ users, valuesResults }) => {
       ) : (
         <p>No matches found. Try changing the no. of matching values.</p>
       )}
-    </main>
+    </Container>
   );
 };
 
