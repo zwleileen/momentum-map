@@ -107,10 +107,10 @@ const FriendProfile = ({ users }) => {
       <Typography variant="h6" sx={{ml:2, mt:2}}>{friendValues.name.username}'s Values Ranking</Typography>
         <Typography variant="h6" sx={{ml:2, mt:2}}>Top 5 Basic Values</Typography>
         { valuesArray ? (
-        <List sx={{py:1}}>
+        <List sx={{mt:1}}>
           {valuesArray.slice(0,5).map(([key]) => (
-            <ListItem key={key} sx={{py:0.5}}>
-              <ListItemText primary={formatValueName(key)} />
+            <ListItem key={key} sx={{py: 0, minHeight: "unset"}}>
+              <ListItemText primary={formatValueName(key)} sx={{ margin: 0 }}/>
             </ListItem>
           ))}
         </List>
@@ -119,10 +119,10 @@ const FriendProfile = ({ users }) => {
         )}
         <Typography variant="h6" sx={{ml:2, mt:2}}>Top 2 Higher Order Values</Typography>
         { sortedHigherOrderValues ? (
-        <List sx={{py:1}}>
+        <List sx={{mt:1, mb:2}}>
           {sortedHigherOrderValues.slice(0,2).map(([key]) => (
-            <ListItem key={key} sx={{py:0.5}}>
-              <ListItemText primary={formatValueName(key)}/>
+            <ListItem key={key} sx={{py: 0, minHeight: "unset"}}>
+              <ListItemText primary={formatValueName(key)} sx={{ margin: 0 }}/>
             </ListItem>
           ))}
         </List>

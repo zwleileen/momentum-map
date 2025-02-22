@@ -6,12 +6,14 @@ import {
   Container,
   Typography,
   Box,
-  Button,
   List,
   ListItem,
   ListItemText,
-  Paper
+  Paper,
+  MenuItem,
+  Select
 } from '@mui/material';
+import { alignProperty } from "@mui/material/styles/cssUtils";
 
 const FriendsList = ({ users, valuesResults }) => {
   const { user } = useContext(UserContext);
@@ -42,35 +44,51 @@ const FriendsList = ({ users, valuesResults }) => {
 
   return (
     <Container maxWidth="md">
-      <Typography variant="h4" sx={{mt:4}}>People with values that matched yours</Typography>
+      <Typography variant="h5" sx={{mt:4}}>Find people with values that matched yours</Typography>
 
-      <div>
-        <label htmlFor="exactMatches">No. of matching values: </label>
-        <select id="exactMatches" value={exactMatches} onChange={(e)=>setExactMatches(Number(e.target.value))}>
-          <option value={1}>1 match</option>
-          <option value={2}>2 matches</option>
-          <option value={3}>3 matches</option>
-        </select>
-      </div>
+      <Box sx={{display:"flex", alignItems:"center", gap:2, mb:4, mt:4}}>
+        <Typography variant="body1">No. of matching values: </Typography>
+        <Select
+        value={exactMatches} 
+        onChange={(e)=>setExactMatches(Number(e.target.value))}
+        variant="outlined"
+        size="small"
+        >
+          <MenuItem value={1}>1 match</MenuItem>
+          <MenuItem value={2}>2 matches</MenuItem>
+          <MenuItem value={3}>3 matches</MenuItem>
+        </Select>
+      </Box>
 
+      <Box sx={{display: "flex", flexWrap: "wrap", gap:2, justifyContent:"flex-start"}}>
       {matches.length > 0 ? (
         matches.map((match) => (
-          <div key={match.user._id}>
-            <h3>
-              <Link to={`/users/${match.user._id}`}>{match.user.username}</Link>
-            </h3>
-            {/* <p>Matching Values: {match.matchedValues}</p> */}
-            <p>Their Top 3 Values:</p>
-            <ul>
+          <Link 
+          key={match.user._id}
+          to={`/users/${match.user._id}`} 
+          style={{ textDecoration: "none", color: "inherit"}}
+          >
+            <Paper elevation={3} sx={{p:3, mb:2}}>
+            <Typography variant="h6">
+                {match.user.username}
+            </Typography>
+            <Typography variant="body1" sx={{mt:1}}>
+                Their Top 3 Values:
+            </Typography>
+            <List sx={{mt:1}}>
               {match.top3Values.map((value, index) => (
-                <li key={index}>{value.name}</li>
+                <ListItem key={index} sx={{py: 0, minHeight: "unset"}}>
+                  <ListItemText primary={value.name} sx={{ margin: 0 }}/>
+                </ListItem>
               ))}
-            </ul>
-          </div>
+            </List>
+            </Paper>
+          </Link>
         ))
       ) : (
-        <p>No matches found. Try changing the no. of matching values.</p>
+        <Typography variant="body1">No matches found. Try changing the no. of matching values.</Typography>
       )}
+      </Box>
     </Container>
   );
 };

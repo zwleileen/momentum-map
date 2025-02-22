@@ -64,9 +64,11 @@ const Dashboard = (props) => {
         <Paper elevation={3} sx={{width: "100%", display:"flex", flexDirection:"column", flex:1}}>
         <Typography variant="h5" sx={{ml:2, mt:2}}>Top 5 Values</Typography>
         {topValues.length ? (
-          <List sx={{py:1}}>
+          <List sx={{mt:1}}>
             {topValues.map(([key]) => (
-              <ListItem key={key} sx={{py:0.5}}><ListItemText primary={formatValueName(key)}/></ListItem>
+              <ListItem key={key} sx={{py: 0, minHeight: "unset"}}>
+                <ListItemText primary={formatValueName(key)} sx={{ margin: 0 }}/>
+              </ListItem>
             ))}
           </List>
         ) : (
