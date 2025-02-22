@@ -1,0 +1,20 @@
+* {
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .landing-container {
+    text-align: center;
+    padding: 20px 0;
+    max-width: 90%;
+    margin: 0 auto;
+  }
+  
+  .landing-button {
+    margin-top: 20px;
+    padding: 12px 24px;
+    background-color: #f8f8f9;
+  }
+
+  .landing-button:hover {
+    background-color: #fae606;
+  }
