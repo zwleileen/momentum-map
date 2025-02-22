@@ -3,19 +3,11 @@ import { useParams } from "react-router-dom";
 import * as valuesService from "../../services/valuesService";
 import friendsService from "../../services/friendsService";
 import FriendShow from "../FriendShow/FriendShow";
+import DeleteFriendButton from "../DeleteFriendButton/DeleteFriendButton";
 
 const FriendProfile = ({ users }) => {
   const { friendId } = useParams();
   const [ friendValues, setFriendValues ] = useState();
-  const [ acceptedFriendsList, setAcceptedFriendsList ] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchFriends = async () => {
-  //     const data = await friendsService.indexFriends();
-  //     setAcceptedFriendsList(data);
-  //   };
-  //   fetchFriends();
-  // }, []);
 
   useEffect(() => {
     // console.log("friendId:", friendId);
@@ -34,7 +26,7 @@ const FriendProfile = ({ users }) => {
     fetchValues();
   }, [friendId]);
 
-  console.log("Users passed to FriendShow:", users); // ✅ Check if users exist
+  console.log("Users passed to FriendShow:", users);
 
   if (!friendValues || !friendValues.name || !friendValues.name.username) {
     return <p>Loading friend data...</p>;
@@ -114,14 +106,8 @@ const FriendProfile = ({ users }) => {
         )}
       </div>
       <button onClick={() => handleButton()}>Send Friend Request Here</button>
-      {/* <FriendShow friendId={friendId} friendValues={friendValues} /> */}
+      <DeleteFriendButton />
       <FriendShow friendId={friendId} friendName={friendValues.name.username} />
-      {/* <h3>{friendValues.name.username}'s Friends</h3>
-        <ul>
-        {acceptedFriendsList.map(friend => (
-          <li key={friend._id}>{friend.recipient.username}</li>
-        ))}
-        </ul> */}
     </main>
   );
 };

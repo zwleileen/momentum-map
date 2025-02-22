@@ -68,26 +68,12 @@ const Dashboard = (props) => {
         ) : (
           <FriendRequest user={user} />
         )}
-        {/* <FriendShow users={users} />
-        <FriendRequest /> */}
-        {/* <h2>Friends</h2>
-
-        <ul>
-          {users.map((user) => (
-            <li key={user._id}>{user.username}</li>
-          ))}
-        </ul> */}
         {showFriend ? (
           <button onClick={() => handleButton()}>Requests</button>
         ) : (
           <button onClick={() => handleButton()}>Friends</button>
         )}
-
         <button onClick={() => navigate("/users")}>Find Friends</button>
-
-        {/* <button onClick={() => handleButton()}>Requests/Friends</button>
-        <button onClick={() => handleButton()}>Requests/Friends</button>
-        <button onClick={() => navigate("/users")}>Find Friends</button> */}
       </div>
     </main>
   );

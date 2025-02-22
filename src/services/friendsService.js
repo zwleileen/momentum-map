@@ -36,19 +36,6 @@ const acceptFriendRequest = async (requestFriendId) => {
   }
 };
 
-// hardcoded works
-// const indexFriends = async () => {
-//   try {
-//     const url = `${BASE_URL}`; // Construct the URL with requesterId
-//     const res = await fetch(url, {
-//       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-//     });
-//     return res.json();
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
 const indexFriends = async (userId) => {
   try {
     const url = `${BASE_URL}/${userId}`;
@@ -62,4 +49,18 @@ const indexFriends = async (userId) => {
   }
 };
 
-export default { sendFriendRequest, acceptFriendRequest, indexFriends };
+const deleteFriend = async (userIdToDelete) => {
+  try {
+    const res = await fetch(`${BASE_URL}/${userIdToDelete}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return res.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export default { sendFriendRequest, acceptFriendRequest, indexFriends, deleteFriend };
