@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 import './App.css'
 import NavBar from "./components/NavBar/NavBar";
@@ -81,13 +80,8 @@ const App = () => {
 
   // console.log(valuesResults);
 
-  const theme = createTheme({
-    //customise theme settings here
-  });
-  
   return (
     <>
-    <ThemeProvider theme={theme}>
       <NavBar />
       <Routes>
         <Route
@@ -136,7 +130,6 @@ const App = () => {
         )}
         <Route path="*" element={<h1>Oops, nothing here!</h1>} />
       </Routes>
-    </ThemeProvider>
     </>
   );
 };
