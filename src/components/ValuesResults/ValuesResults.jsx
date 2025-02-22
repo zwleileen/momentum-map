@@ -1,4 +1,14 @@
 import { useNavigate } from "react-router-dom";
+import {
+  Container,
+  Typography,
+  Box,
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  Paper,
+} from '@mui/material';
 
 const ValuesResults = (props) => {
   const navigate = useNavigate();
@@ -54,36 +64,42 @@ const ValuesResults = (props) => {
   };
     
   return (
-      <main>
-        <h1>Here are your values profile</h1>
-        <h3>Top 5 Basic Values</h3>
+      <Container maxWidth="md">
+        <Typography variant="h5" sx={{mt:4, mb:2}}>Here are your values profile</Typography>
+        <Typography variant="h6">Top 5 Basic Values</Typography>
         { valuesArray.length > 0 ? (
-        <ul>
+        <List>
           {valuesArray.slice(0,5).map(([key]) => (
-            <li key={key}>
-              <strong>{formatValueName(key)}:</strong>{getDescription(key)}
-            </li>
+            <ListItem key={key}>
+              <ListItemText primary={formatValueName(key)}
+              secondary={getDescription(key)}
+              />
+            </ListItem>
           ))}
-        </ul>
+        </List>
         ) : (
-          <p>No values to show. Please take test.</p>
+          <Typography variant="body1">No values to show. Please take test.</Typography>
         )}
 
-        <h3>Top 2 Higher Order Values</h3>
+        <Typography variant="h6">Top 2 Higher Order Values</Typography>
         { sortedHigherOrderValues.length > 0 ? (
-        <ul>
+        <List>
           {sortedHigherOrderValues.slice(0,2).map(([key]) => (
-            <li key={key}>
-              <strong>{formatValueName(key)}:</strong>{getDescription(key)}
-            </li>
+            <ListItem key={key}>
+              <ListItemText primary={formatValueName(key)}
+              secondary={getDescription(key)}
+              />
+            </ListItem>
           ))}
-        </ul>
+        </List>
         ) : (
-          <p>""</p>
+          <Typography variant="body1">No higher order values to display.</Typography>
         )}
 
-        <button onClick={() => navigate("/values/new")}>Redo Questionnaire</button>
-      </main>
+        <Box sx={{display:"flex"}}>
+        <Button variant="outlined" onClick={() => navigate("/values/new")}>Redo Questionnaire</Button>
+        </Box>
+      </Container>
     );
   };
   

@@ -13,8 +13,6 @@ import {
   ListItem,
   ListItemText,
   Paper,
-  Grid,
-  Divider
 } from '@mui/material';
 
 const Dashboard = (props) => {
