@@ -55,7 +55,7 @@ const indexRequestFriends = async (boolString) => {
       },
       body: JSON.stringify({ status: boolString }),
     });
-    console.log(`TESSSSSSSSSSSSSTTT: ${response}`);
+    // console.log(`TESSSSSSSSSSSSSTTT: ${response}`);
     if (!response.ok) {
       throw new Error(`Failed in listing Friend Request List.`);
     }
