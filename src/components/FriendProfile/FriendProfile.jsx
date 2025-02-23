@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import * as valuesService from "../../services/valuesService";
 import friendsService from "../../services/friendsService";
 import FriendShow from "../FriendShow/FriendShow";
+import { UserContext } from "../../contexts/UserContext";
 import {
   Container,
   Typography,
@@ -17,7 +18,9 @@ import DeleteFriendButton from "../DeleteFriendButton/DeleteFriendButton";
 
 const FriendProfile = ({ users }) => {
   const { friendId } = useParams();
+  const { user } = useContext(UserContext);
   const [ friendValues, setFriendValues ] = useState();
+  const [ isFriendsWithUser, setIsFriendsWithUser ] = useState(false);
 
   useEffect(() => {
     // console.log("friendId:", friendId);
@@ -36,7 +39,29 @@ const FriendProfile = ({ users }) => {
     fetchValues();
   }, [friendId]);
 
-  console.log("Users passed to FriendShow:", users);
+  // Check if user is friends with FriendProfile
+  useEffect(() => {
+    const checkIsFriendsWithUser = async () => {
+      const data = await friendsService.indexFriends(friendId);
+      const allFriends = [];
+      // console.log("RECIPIENTID", data[1].recipient._id);
+      // console.log("USERID", user._id);
+      for (let i = 0; i < data.length; i++) {
+        allFriends.push(data[i].recipient._id)
+      }
+      // console.log("ALLFRIENDS", allFriends);
+      // console.log(allFriends.includes(user._id));
+      if (allFriends.includes(user._id)) {
+        setIsFriendsWithUser(true);
+      }
+      // if (user._id === data[1].recipient._id) {
+      //   setIsFriendsWithUser(true);
+      // }
+    };
+    checkIsFriendsWithUser();
+  }, [friendId]);
+
+  // console.log("Users passed to FriendShow:", users);
 
   if (!friendValues || !friendValues.name || !friendValues.name.username) {
     return <p>Loading friend data...</p>;
@@ -87,11 +112,11 @@ const FriendProfile = ({ users }) => {
       console.log(`Error posting friend request.`, error);
     }
   };
-
   
   return (
     <Container maxWidth="md">
       <Typography variant="h5" sx={{mt:4}}>{friendValues.name.username}'s Profile!</Typography>
+      {isFriendsWithUser && <h3>Your friend</h3>}
       <Box sx={{display:"flex", justifyContent:"space-evenly", gap: 4, mt: 4}}>
       
       <Box sx={{flex: 1, display: "flex", flexDirection: "column"}}>
@@ -129,7 +154,7 @@ const FriendProfile = ({ users }) => {
       <FriendShow friendId={friendId} friendName={friendValues.name.username} />
         </Paper>
         <Button variant="outlined" onClick={() => handleButton()} sx={{mt:2}}>Send Friend Request Here</Button>
-        <DeleteFriendButton userIdToDelete={friendId}/>
+        {isFriendsWithUser && <DeleteFriendButton userIdToDelete={friendId}/>}
         </Box>
     </Box>
     </Container>

@@ -10,11 +10,12 @@ const FriendShow = ( {friendId, friendName} ) => {
     const fetchFriends = async () => {
       const data = await friendsService.indexFriends(friendId);
       setAcceptedFriendsList(data);
+      // console.log(data)
     };
     fetchFriends();
   }, [friendId]);
 
-  console.log("AFL", acceptedFriendsList);
+  // console.log("AFL", acceptedFriendsList);
 
   return (
     <>
