@@ -1,28 +1,22 @@
-// import { useEffect } from "react";
 import friendsService from "../../services/friendsService";
-import { useNavigate } from "react-router";
+import { Button } from "@mui/material";
 
 const DeleteFriendButton = ({ userIdToDelete }) => {
-    const navigate = useNavigate(); 
-    userIdToDelete = "67b2c9e046c71c3e7384efa6";
-
-    const handleDeleteButton = async () => {
-        await friendsService.deleteFriend(userIdToDelete);
-        navigate(`/users/${userIdToDelete}`);
-        // useEffect(() => {
-        //     const deleteFriend = async () => {
-        //         await friendsService.deleteFriend(userIdToDelete);
-        //         navigate(`/users/${userIdToDelete}`);
-        //     };
-        //     deleteFriend();
-        //   }, [userIdToDelete]);
-    };
-
-
-    return (
-      <button onClick={() => handleDeleteButton()}>Remove Friend</button>
-    );
+  const handleDeleteButton = async (userIdToDelete) => {
+    await friendsService.deleteFriend(userIdToDelete);
+    window.location.reload();
+    //   possibly use navigate(`/users/${userIdToDelete}`); together with state change for react to detect and reload
   };
-  
-  export default DeleteFriendButton;
-  
+
+  return (
+    <Button
+      variant="outlined"
+      onClick={() => handleDeleteButton(userIdToDelete)}
+      sx={{ mt: 2 }}
+    >
+      Remove Friend
+    </Button>
+  );
+};
+
+export default DeleteFriendButton;

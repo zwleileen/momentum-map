@@ -13,6 +13,7 @@ import {
   ListItemText,
   Paper
 } from '@mui/material';
+import DeleteFriendButton from "../DeleteFriendButton/DeleteFriendButton";
 
 const FriendProfile = ({ users }) => {
   const { friendId } = useParams();
@@ -126,16 +127,9 @@ const FriendProfile = ({ users }) => {
       <Box sx={{flex: 1, display: "flex", flexDirection: "column"}}>
         <Paper elevation={3} sx={{height: "100%", display:"flex", flexDirection:"column", flex:1}}>
       <FriendShow friendId={friendId} friendName={friendValues.name.username} />
-      {/* <h3>{friendValues.name.username}'s Friends</h3>
-        <ul>
-        {acceptedFriendsList.map(friend => (
-          <li key={friend._id}>{friend.recipient.username}</li>
-        ))}
-        </ul> */}
         </Paper>
         <Button variant="outlined" onClick={() => handleButton()} sx={{mt:2}}>Send Friend Request Here</Button>
-      {/* <FriendShow friendId={friendId} friendValues={friendValues} /> */}
-
+        <DeleteFriendButton userIdToDelete={friendId}/>
         </Box>
     </Box>
     </Container>
