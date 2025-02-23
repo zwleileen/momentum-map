@@ -19,7 +19,7 @@ const Dashboard = (props) => {
   const { user } = useContext(UserContext);
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
-  const [showFriend, setShowFriend] = useState(false); // using this state to toggle between showFriends or showRequests
+  const [showFriend, setShowFriend] = useState(true); // using this state to toggle between showFriends or showRequests
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -82,7 +82,7 @@ const Dashboard = (props) => {
         <Paper elevation={3} sx={{height: "100%", display:"flex", flexDirection:"column", flex:1}}>
         <Box sx={{flexGrow:1}}>
         {showFriend ? (
-          <FriendShow users={users} user={user} />
+          <FriendShow friendId={user._id} friendName={user.username} />
         ) : (
           <FriendRequest user={user} />
         )}

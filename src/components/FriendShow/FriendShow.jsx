@@ -1,18 +1,7 @@
-import { useParams } from "react-router";
 import { useEffect } from "react";
 import friendsService from "../../services/friendsService";
 import { useState } from "react";
-
-// const FriendShow = ( {friendValues} ) => {
-//   const [acceptedFriendsList, setAcceptedFriendsList] = useState([]);
-//   const userId = friendValues._id;
-//   useEffect(() => {
-//     const fetchFriends = async () => {
-//       const data = await friendsService.indexFriends(userId);
-//       setAcceptedFriendsList(data);
-//     };
-//     fetchFriends();
-//   }, []);
+import { Link } from "react-router";
 
 const FriendShow = ( {friendId, friendName} ) => {
   const [acceptedFriendsList, setAcceptedFriendsList] = useState([]);
@@ -23,17 +12,19 @@ const FriendShow = ( {friendId, friendName} ) => {
       setAcceptedFriendsList(data);
     };
     fetchFriends();
-  }, []);
+  }, [friendId]);
 
-  console.log(acceptedFriendsList);
+  console.log("AFL", acceptedFriendsList);
 
   return (
     <>
-      {/* <h2>{friendId.username}'s Friends</h2> */}
-      <h1>{friendName}'s Friends</h1>
+      <h2>{friendName}'s Friends</h2>
       <ul>{
         acceptedFriendsList.map((friend)=>(
-          <li key={friend._id}>{friend.recipient.username}</li>
+          // <li key={friend._id}>{friend.recipient.username}</li>
+          <li key={friend._id}>
+            <Link to={`/users/${friend.recipient._id}`}>{friend.recipient.username}</Link>
+          </li>
         )
         )}
       </ul>
