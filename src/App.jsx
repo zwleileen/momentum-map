@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 
+import './App.css'
 import NavBar from "./components/NavBar/NavBar";
 import SignUpForm from "./components/SignUpForm/SignUpForm";
 import SignInForm from "./components/SignInForm/SignInForm";
@@ -21,24 +22,16 @@ const App = () => {
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const fetchUsers = async () => {
-  //     try {
-  //       const fetchedUsers = await userService.index();
-  //       console.log(fetchedUsers); // Keeping your console log
-  //       setUsers(fetchedUsers);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  //   fetchUsers();
-  // }, []);
-
   useEffect(() => {
     const fetchValues = async () => {
       try {
         if (user) {
           const fetchedValues = await valuesService.show(user._id);
+
+          if (!fetchedValues) {
+            console.log("No values returned");  // Debug log
+            return;
+          }
           setValuesResults(fetchedValues);
         }
       } catch (err) {
@@ -91,7 +84,7 @@ const App = () => {
   }, [user, tempValues, navigate, isCreating]);
 
   // console.log(valuesResults);
-  
+
   return (
     <>
       <NavBar />

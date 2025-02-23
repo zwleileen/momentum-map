@@ -4,6 +4,16 @@ import * as userService from "../../services/userService";
 import { useNavigate } from "react-router-dom";
 import FriendRequest from "../FriendRequest/FriendRequest";
 import FriendShow from "../FriendShow/FriendShow";
+import {
+  Container,
+  Typography,
+  Box,
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  Paper,
+} from '@mui/material';
 
 const Dashboard = (props) => {
   const { user } = useContext(UserContext);
@@ -46,36 +56,64 @@ const Dashboard = (props) => {
   };
 
   return (
-    <main>
-      <h1>{user.username}'s Profile</h1>
-
-      <div>
-        <h2>Top 5 Values</h2>
+    <Container maxWidth="md">
+      <Typography variant="h5" sx={{mt:4}}>{user.username}'s Profile</Typography>
+      <Box sx={{display:"flex", justifyContent:"space-evenly", gap: 4, mt: 4}}>
+      
+      <Box sx={{flex: 1, display: "flex", flexDirection: "column"}}>
+        <Paper elevation={3} sx={{width: "100%", display:"flex", flexDirection:"column", flex:1}}>
+        <Typography variant="h5" sx={{ml:2, mt:2}}>Top 5 Values</Typography>
         {topValues.length ? (
-          <ul>
+          <List sx={{mt:1}}>
             {topValues.map(([key]) => (
-              <li key={key}>{formatValueName(key)}</li>
+              <ListItem key={key} sx={{py: 0, minHeight: "unset"}}>
+                <ListItemText primary={formatValueName(key)} sx={{ margin: 0 }}/>
+              </ListItem>
             ))}
-          </ul>
+          </List>
         ) : (
-          <p>No values to show yet</p>
+          <Typography variant="body1">No values to show yet</Typography>
         )}
-        <button onClick={() => navigate("/values")}>See more</button>
-      </div>
-      <div>
+        <Button variant="text" onClick={() => navigate("/values")} sx={{mb:2, ml:1}}>See more</Button>
+        </Paper>
+      </Box>
+      
+      <Box sx={{flex: 1, display: "flex", flexDirection: "column"}}>
+        <Paper elevation={3} sx={{height: "100%", display:"flex", flexDirection:"column", flex:1}}>
+        <Box sx={{flexGrow:1}}>
         {showFriend ? (
           <FriendShow friendId={user._id} friendName={user.username} />
         ) : (
           <FriendRequest user={user} />
         )}
+        </Box>
+        {/* <FriendShow users={users} />
+        <FriendRequest /> */}
+        {/* <h2>Friends</h2>
+
+        <ul>
+          {users.map((user) => (
+            <li key={user._id}>{user.username}</li>
+          ))}
+        </ul> */}
+        
+        <Box sx={{display:"flex", justifyContent:"center", mb:2}}>
         {showFriend ? (
-          <button onClick={() => handleButton()}>Requests</button>
+          <Button variant="text" onClick={() => handleButton()}>Requests</Button>
         ) : (
-          <button onClick={() => handleButton()}>Friends</button>
+          <Button variant="text" onClick={() => handleButton()}>Friends</Button>
         )}
-        <button onClick={() => navigate("/users")}>Find Friends</button>
-      </div>
-    </main>
+
+        <Button variant="text" onClick={() => navigate("/users")}>Find Friends</Button>
+
+        {/* <button onClick={() => handleButton()}>Requests/Friends</button>
+        <button onClick={() => handleButton()}>Requests/Friends</button>
+        <button onClick={() => navigate("/users")}>Find Friends</button> */}
+        </Box>
+      </Paper>
+      </Box>
+      </Box>
+    </Container>
   );
 };
 

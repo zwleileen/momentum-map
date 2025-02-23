@@ -3,7 +3,16 @@ import { useParams } from "react-router-dom";
 import * as valuesService from "../../services/valuesService";
 import friendsService from "../../services/friendsService";
 import FriendShow from "../FriendShow/FriendShow";
-import DeleteFriendButton from "../DeleteFriendButton/DeleteFriendButton";
+import {
+  Container,
+  Typography,
+  Box,
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  Paper
+} from '@mui/material';
 
 const FriendProfile = ({ users }) => {
   const { friendId } = useParams();
@@ -80,35 +89,56 @@ const FriendProfile = ({ users }) => {
 
   
   return (
-    <main>
-      <h1>{friendValues.name.username}'s Profile!</h1>
-      <div>
-        <h2>{friendValues.name.username}'s Values Ranking</h2>
-        <h3>Top 5 Basic Values</h3>
+    <Container maxWidth="md">
+      <Typography variant="h5" sx={{mt:4}}>{friendValues.name.username}'s Profile!</Typography>
+      <Box sx={{display:"flex", justifyContent:"space-evenly", gap: 4, mt: 4}}>
+      
+      <Box sx={{flex: 1, display: "flex", flexDirection: "column"}}>
+      <Paper elevation={3} sx={{width: "100%", display:"flex", flexDirection:"column", flex:1}}>
+      <Typography variant="h6" sx={{ml:2, mt:2}}>{friendValues.name.username}'s Values Ranking</Typography>
+        <Typography variant="h6" sx={{ml:2, mt:2}}>Top 5 Basic Values</Typography>
         { valuesArray ? (
-        <ul>
+        <List sx={{mt:1}}>
           {valuesArray.slice(0,5).map(([key]) => (
-            <li key={key}>{formatValueName(key)}</li>
+            <ListItem key={key} sx={{py: 0, minHeight: "unset"}}>
+              <ListItemText primary={formatValueName(key)} sx={{ margin: 0 }}/>
+            </ListItem>
           ))}
-        </ul>
+        </List>
         ) : (
-          <p>No results to show yet!</p>
+          <Typography variant="body1">No results to show yet!</Typography>
         )}
-        <h3>Top 2 Higher Order Values</h3>
+        <Typography variant="h6" sx={{ml:2, mt:2}}>Top 2 Higher Order Values</Typography>
         { sortedHigherOrderValues ? (
-        <ul>
+        <List sx={{mt:1, mb:2}}>
           {sortedHigherOrderValues.slice(0,2).map(([key]) => (
-            <li key={key}>{formatValueName(key)}</li>
+            <ListItem key={key} sx={{py: 0, minHeight: "unset"}}>
+              <ListItemText primary={formatValueName(key)} sx={{ margin: 0 }}/>
+            </ListItem>
           ))}
-        </ul>
+        </List>
         ) : (
           <p>"</p>
         )}
-      </div>
-      <button onClick={() => handleButton()}>Send Friend Request Here</button>
-      <DeleteFriendButton />
+      </Paper>
+      </Box>
+
+      <Box sx={{flex: 1, display: "flex", flexDirection: "column"}}>
+        <Paper elevation={3} sx={{height: "100%", display:"flex", flexDirection:"column", flex:1}}>
       <FriendShow friendId={friendId} friendName={friendValues.name.username} />
-    </main>
+      {/* <h3>{friendValues.name.username}'s Friends</h3>
+        <ul>
+        {acceptedFriendsList.map(friend => (
+          <li key={friend._id}>{friend.recipient.username}</li>
+        ))}
+        </ul> */}
+        </Paper>
+        <Button variant="outlined" onClick={() => handleButton()} sx={{mt:2}}>Send Friend Request Here</Button>
+      {/* <FriendShow friendId={friendId} friendValues={friendValues} /> */}
+
+        </Box>
+    </Box>
+    </Container>
   );
 };
 

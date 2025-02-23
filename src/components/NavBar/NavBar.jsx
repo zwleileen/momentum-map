@@ -1,6 +1,6 @@
 import { useContext } from 'react';
-import { Link } from 'react-router-dom';
-
+import { Link as RouterLink } from 'react-router-dom';
+import { Button, Typography } from '@mui/material';
 import { UserContext } from '../../contexts/UserContext';
 
 const NavBar = () => {
@@ -12,19 +12,19 @@ const NavBar = () => {
   };
 
   return (
-    <nav>
+    <nav className="navbar">
       {user ? (
         <>
-          <h2>Welcome, {user.username}</h2>
         <ul>
-          <li><Link to='/'>Dashboard</Link></li>
-          <li><Link to='/' onClick={handleSignOut}>Sign Out</Link></li>
+          <li><Button component={RouterLink} to='/' variant="outlined">Dashboard</Button></li>
+          <li><Button component={RouterLink} to='/' variant="outlined" onClick={handleSignOut}>Sign Out</Button></li>
         </ul>
+        <Typography variant="h4">Welcome, {user.username}</Typography>
         </>
       ) : (
         <ul>
-          <li><Link to='/'>Home</Link></li>
-          <li><Link to='/sign-in'>Sign In</Link></li>
+          <li><Button component={RouterLink} to='/' variant="outlined">Home</Button></li>
+          <li><Button component={RouterLink} to='/sign-in' variant="outlined">Sign In</Button></li>
           {/* <li><Link to='/sign-up'>Sign Up</Link></li> */}
         </ul>
       )}

@@ -1,9 +1,15 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import { signUp } from '../../services/authService';
-
 import { UserContext } from '../../contexts/UserContext';
+import { 
+  Button, 
+  TextField, 
+  Typography, 
+  Container, 
+  Box,
+  Stack,
+} from '@mui/material';
 
 const SignUpForm = () => {
   const navigate = useNavigate();
@@ -42,49 +48,52 @@ const SignUpForm = () => {
   };
 
   return (
-    <main>
-      <h1>Sign Up</h1>
+    <Container maxWidth="sm">
       <p>{message}</p>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor='username'>Username:</label>
-          <input
-            type='text'
-            id='name'
-            value={capitalizeFirstLetter(username)}
-            name='username'
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor='password'>Password:</label>
-          <input
-            type='password'
-            id='password'
-            value={password}
-            name='password'
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor='confirm'>Confirm Password:</label>
-          <input
-            type='password'
-            id='confirm'
-            value={passwordConf}
-            name='passwordConf'
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <button disabled={isFormInvalid()}>Sign Up</button>
-          <button onClick={() => navigate('/')}>Cancel</button>
-        </div>
-      </form>
-    </main>
+      <Box component="form" onSubmit={handleSubmit}>
+      <Typography variant="h4" sx={{mb:2}}>Sign Up</Typography>
+      
+      <TextField
+      label='Username'
+      type='text'
+      id='name'
+      value={capitalizeFirstLetter(username)}
+      name='username'
+      onChange={handleChange}
+      required
+      size="medium"
+      sx={{mr: 2, mb: 2}}
+      />
+
+      <Stack direction="row" spacing={2}>
+      <TextField 
+      label="Password"
+      type='password'
+      id='password'
+      value={password}
+      name='password'
+      onChange={handleChange}
+      required
+      />
+      
+      <TextField 
+      label="Confirm Password"
+      type='password'
+      id='confirm'
+      value={passwordConf}
+      name='passwordConf'
+      onChange={handleChange}
+      required
+      />
+      
+      </Stack>  
+      
+      <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+          <Button type="submit" variant="outlined" disabled={isFormInvalid()}>Sign Up</Button>
+          <Button variant="outlined" onClick={() => navigate('/')}>Cancel</Button>
+      </Stack>
+      </Box>
+    </Container>
   );
 };
 

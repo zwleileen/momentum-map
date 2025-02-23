@@ -1,4 +1,15 @@
 import { useState } from "react";
+import {
+  RadioGroup,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  Button,
+  Typography,
+  Box,
+  Container
+} from '@mui/material';
 
 const ValuesForm = (props) => {
 
@@ -25,6 +36,14 @@ const ValuesForm = (props) => {
       {id: "T", label: "Tradition is important to me. I try to follow the customs handed down by my religion or my family."},
       {id: "U", label: "I seek every chance I can to have fun. It is important to me to do things that give me pleasure."},
     ];
+
+  const valueOptions = [
+    { value:"5", label: "Very much like me" },
+    { value:"4", label: "Like me" },
+    { value:"3", label: "Somewhat like me" },
+    { value:"2", label: "A little like me" },
+    { value:"1", label: "Not like me" }
+  ];
 
   const inputMapping = {
       Universalism: ["C", "H", "S"],
@@ -80,30 +99,29 @@ const ValuesForm = (props) => {
 
 
     return (
-    <form onSubmit={handleSubmit}>
-        <h1>Clarifying your values</h1>
-        <p>This questionnaire consists of 21 questions taken from the Schwartz Theory of Basic Values. Please respond to all the questions below by rating each of them 1 to 5, 5 being most like you and 1 being least like you.</p>
+    <Container maxWidth="md"> 
+    <Box component="form" onSubmit={handleSubmit}>
+    <Typography variant="h4" sx={{mb: 2}}>Clarifying your values</Typography>
+    <Typography variant="body1" sx={{mb: 2}}>
+      This questionnaire consists of 21 questions taken from the Schwartz Theory of Basic Values. Please respond to all the questions below by rating each of them 1 to 5, 5 being most like you and 1 being least like you.
+    </Typography>
         
         {valuesQuestions.map(({ id, label }) => (
-        <div key={id} style={{marginBottom:"15px"}}>
-            <label>
-              {label}
-            <select required name={id} id={id} onChange={handleChange}>
-                <option value="0">Select</option>
-                <option value="5">Very much like me</option>
-                <option value="4">Like me</option>
-                <option value="3">Somewhat like me</option>
-                <option value="2">A little like me</option>
-                <option value="1">Not like me</option>
-            </select>
-            </label>
-        </div> 
+        <FormControl key={id} fullWidth sx={{ mb: 3 }} >
+            <FormLabel>{label}</FormLabel>
+            <RadioGroup name={id} value={valuesInputs[id] || ""} onChange={handleChange} row>
+              {valueOptions.map((option) => (
+                <FormControlLabel key={option.value} value={option.value} control={<Radio/>} label={option.label}/>
+              ))}
+            </RadioGroup>
+        </FormControl> 
         ))}
 
-        <button type="submit" style={{ marginTop: "20px", padding: "10px", fontSize: "16px" }}>
+        <Button type="submit" variant="outlined">
         Submit
-      </button>
-    </form>
+      </Button>
+    </Box>
+    </Container>
     )
 };
 
