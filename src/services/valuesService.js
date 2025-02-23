@@ -42,11 +42,16 @@ const getMatches = async () => {
 };
 
 const create = async (valuesResults) => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    throw new Error("No authentication token found");
+  }
+
   try {
     const res = await fetch(BASE_URL, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(valuesResults),

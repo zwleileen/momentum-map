@@ -10,18 +10,18 @@ const FriendShow = ( {friendId, friendName} ) => {
     const fetchFriends = async () => {
       const data = await friendsService.indexFriends(friendId);
       setAcceptedFriendsList(data);
+      // console.log(data)
     };
     fetchFriends();
   }, [friendId]);
 
-  console.log("AFL", acceptedFriendsList);
+  // console.log("AFL", acceptedFriendsList);
 
   return (
     <>
       <h2>{friendName}'s Friends</h2>
       <ul>{
         acceptedFriendsList.map((friend)=>(
-          // <li key={friend._id}>{friend.recipient.username}</li>
           <li key={friend._id}>
             <Link to={`/users/${friend.recipient._id}`}>{friend.recipient.username}</Link>
           </li>

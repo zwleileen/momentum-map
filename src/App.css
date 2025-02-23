@@ -1,0 +1,17 @@
+* {
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .navbar {
+    margin: 0;
+  }
+
+  .navbar ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0;
+  }
+
+  

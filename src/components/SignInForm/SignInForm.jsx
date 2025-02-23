@@ -1,9 +1,15 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import { signIn } from '../../services/authService';
-
 import { UserContext } from '../../contexts/UserContext';
+import { 
+  Button, 
+  TextField, 
+  Typography, 
+  Container, 
+  Box,
+  Stack,
+} from '@mui/material';
 
 const SignInForm = () => {
   const navigate = useNavigate();
@@ -31,40 +37,42 @@ const SignInForm = () => {
   };
 
   return (
-    <main>
-      <h1>Sign In</h1>
+    <Container maxWidth="sm">
       <p>{message}</p>
-      <form autoComplete='off' onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor='email'>Username:</label>
-          <input
-            type='text'
-            autoComplete='off'
-            id='username'
-            value={formData.username}
-            name='username'
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor='password'>Password:</label>
-          <input
-            type='password'
-            autoComplete='off'
-            id='password'
-            value={formData.password}
-            name='password'
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <button>Sign In</button>
-          <button onClick={() => navigate('/')}>Cancel</button>
-        </div>
-      </form>
-    </main>
+      <Box component="form" autoComplete='off' onSubmit={handleSubmit}>
+      <Typography variant="h4" sx={{mb:2, mt:4}}>Sign In</Typography>
+        
+      <TextField 
+      label='Username'
+      type='text'
+      autoComplete='off'
+      id='username'
+      value={formData.username}
+      name='username'
+      onChange={handleChange}
+      required
+      size="medium"
+      sx={{mr: 2}}
+      />
+      
+      <TextField 
+      label='Password'
+      type='password'
+      autoComplete='off'
+      id='password'
+      value={formData.password}
+      name='password'
+      onChange={handleChange}
+      required
+      size="medium"
+      />
+      
+      <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+        <Button variant="outlined" onClick={handleSubmit}>Sign In</Button>
+        <Button variant="outlined" onClick={() => navigate('/')}>Cancel</Button>
+      </Stack>
+      </Box>
+    </Container>
   );
 };
 

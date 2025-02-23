@@ -15,7 +15,6 @@ const sendFriendRequest = async (friendId) => {
     throw new error("Sending Friend request failed.");
   }
 };
-
 const acceptFriendRequest = async (requestFriendId) => {
   try {
     const response = await fetch(`${BASE_URL}/accept/${requestFriendId}`, {
@@ -25,30 +24,14 @@ const acceptFriendRequest = async (requestFriendId) => {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
     });
-
     if (!response.ok) {
       throw new Error("Failed to accept friend request");
     }
-
     return await response.json();
   } catch (error) {
     throw new Error(`Error accepting friend request: ${error.message}`);
   }
 };
-
-// hardcoded works
-// const indexFriends = async () => {
-//   try {
-//     const url = `${BASE_URL}`; // Construct the URL with requesterId
-//     const res = await fetch(url, {
-//       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-//     });
-//     return res.json();
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
 const indexFriends = async (userId) => {
   try {
     const url = `${BASE_URL}/${userId}`;
@@ -61,7 +44,6 @@ const indexFriends = async (userId) => {
     console.log(error);
   }
 };
-
 const indexRequestFriends = async (boolString) => {
   // console.log(`tseeeeeeeeeeeeeeeest ${boolString}`); // its pending
   try {
@@ -83,7 +65,6 @@ const indexRequestFriends = async (boolString) => {
     throw new Error(`Failed in listing Friend Request List: ${err.message}`);
   }
 };
-
 const updateRequestStatus = async (updateId, status) => {
   // params: updateId = mongoDB friendId, NOT requester/recipient id. && status = pending or accepted
   try {
@@ -98,22 +79,33 @@ const updateRequestStatus = async (updateId, status) => {
         status: status,
       }),
     });
-
     if (!response.ok) {
       throw new Error(`Error in updating friend request status.`);
     }
-
     const data = await response.json();
     return data;
   } catch (err) {
     throw new Error(`Error in updating: ${err.message}`);
   }
 };
-
+const deleteFriend = async (userIdToDelete) => {
+  try {
+    const res = await fetch(`${BASE_URL}/${userIdToDelete}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    return res.json();
+  } catch (error) {
+    console.log(error);
+  }
+};
 export default {
   sendFriendRequest,
   acceptFriendRequest,
   indexFriends,
+  deleteFriend,
   indexRequestFriends,
   updateRequestStatus,
 };

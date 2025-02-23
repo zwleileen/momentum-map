@@ -1,21 +1,27 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import * as valuesService from "../../services/valuesService";
 import friendsService from "../../services/friendsService";
 import FriendShow from "../FriendShow/FriendShow";
+import { UserContext } from "../../contexts/UserContext";
+import {
+  Container,
+  Typography,
+  Box,
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  Paper,
+} from "@mui/material";
+import DeleteFriendButton from "../DeleteFriendButton/DeleteFriendButton";
+import PeopleIcon from "@mui/icons-material/People";
 
 const FriendProfile = ({ users }) => {
   const { friendId } = useParams();
-  const [ friendValues, setFriendValues ] = useState();
-  const [ acceptedFriendsList, setAcceptedFriendsList ] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchFriends = async () => {
-  //     const data = await friendsService.indexFriends();
-  //     setAcceptedFriendsList(data);
-  //   };
-  //   fetchFriends();
-  // }, []);
+  const { user } = useContext(UserContext);
+  const [friendValues, setFriendValues] = useState();
+  const [isFriendsWithUser, setIsFriendsWithUser] = useState(false);
 
   useEffect(() => {
     // console.log("friendId:", friendId);
@@ -30,19 +36,41 @@ const FriendProfile = ({ users }) => {
         console.log("Error fetching values:", err);
       }
     };
-    
+
     fetchValues();
   }, [friendId]);
 
-  console.log("Users passed to FriendShow:", users); // ✅ Check if users exist
+  // Check if user is friends with FriendProfile
+  useEffect(() => {
+    const checkIsFriendsWithUser = async () => {
+      const data = await friendsService.indexFriends(friendId);
+      const allFriends = [];
+      // console.log("RECIPIENTID", data[1].recipient._id);
+      // console.log("USERID", user._id);
+      for (let i = 0; i < data.length; i++) {
+        allFriends.push(data[i].recipient._id);
+      }
+      // console.log("ALLFRIENDS", allFriends);
+      // console.log(allFriends.includes(user._id));
+      if (allFriends.includes(user._id)) {
+        setIsFriendsWithUser(true);
+      } else {
+        setIsFriendsWithUser(false);
+      };
+    };
+    checkIsFriendsWithUser();
+  }, [friendId, user._id]);
+
+  // console.log("Users passed to FriendShow:", users);
 
   if (!friendValues || !friendValues.name || !friendValues.name.username) {
     return <p>Loading friend data...</p>;
   }
 
-  const valuesArray = friendValues?.values ? 
-    Object.entries(friendValues.values).sort((a, b) => b[1] - a[1]) : [];
-    // console.log(valuesArray);
+  const valuesArray = friendValues?.values
+    ? Object.entries(friendValues.values).sort((a, b) => b[1] - a[1])
+    : [];
+  // console.log(valuesArray);
 
   const valuesObject = Object.fromEntries(valuesArray);
 
@@ -63,17 +91,18 @@ const FriendProfile = ({ users }) => {
       3,
   };
 
-  const sortedHigherOrderValues = Object.entries(higherOrderValues)
-    .sort((a, b) => b[1] - a[1]);
-  
+  const sortedHigherOrderValues = Object.entries(higherOrderValues).sort(
+    (a, b) => b[1] - a[1]
+  );
+
   const formatValueName = (valueName) => {
     const replacements = {
-        "SelfDirection": "Self-Direction",
-        "SelfTranscendence": "Self-Transcendence",
-        "OpennessToChange": "Openness To Change",
-        "SelfEnhancement": "Self-Enhancement"
+      SelfDirection: "Self-Direction",
+      SelfTranscendence: "Self-Transcendence",
+      OpennessToChange: "Openness To Change",
+      SelfEnhancement: "Self-Enhancement",
     };
-      return replacements[valueName] || valueName; // If found, replace; otherwise, return as is
+    return replacements[valueName] || valueName; // If found, replace; otherwise, return as is
   };
 
   const handleButton = async () => {
@@ -86,43 +115,107 @@ const FriendProfile = ({ users }) => {
     }
   };
 
-  
   return (
-    <main>
-      <h1>{friendValues.name.username}'s Profile!</h1>
-      <div>
-        <h2>{friendValues.name.username}'s Values Ranking</h2>
-        <h3>Top 5 Basic Values</h3>
-        { valuesArray ? (
-        <ul>
-          {valuesArray.slice(0,5).map(([key]) => (
-            <li key={key}>{formatValueName(key)}</li>
-          ))}
-        </ul>
-        ) : (
-          <p>No results to show yet!</p>
-        )}
-        <h3>Top 2 Higher Order Values</h3>
-        { sortedHigherOrderValues ? (
-        <ul>
-          {sortedHigherOrderValues.slice(0,2).map(([key]) => (
-            <li key={key}>{formatValueName(key)}</li>
-          ))}
-        </ul>
-        ) : (
-          <p>"</p>
-        )}
-      </div>
-      <button onClick={() => handleButton()}>Send Friend Request Here</button>
-      {/* <FriendShow friendId={friendId} friendValues={friendValues} /> */}
-      <FriendShow friendId={friendId} friendName={friendValues.name.username} />
-      {/* <h3>{friendValues.name.username}'s Friends</h3>
-        <ul>
-        {acceptedFriendsList.map(friend => (
-          <li key={friend._id}>{friend.recipient.username}</li>
-        ))}
-        </ul> */}
-    </main>
+    <Container maxWidth="md">
+      <Typography variant="h5" sx={{ mt: 4 }}>
+        {friendValues.name.username}'s Profile!
+      </Typography>
+      {isFriendsWithUser && (
+        <>
+          <PeopleIcon data-testid="people" /> Your Friend
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-evenly",
+              gap: 4,
+              mt: 4,
+            }}
+          >
+            {/* Your other components */}
+          </Box>
+        </>
+      )}
+      <Box
+        sx={{ display: "flex", justifyContent: "space-evenly", gap: 4, mt: 4 }}
+      >
+        <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
+          <Paper
+            elevation={3}
+            sx={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              flex: 1,
+            }}
+          >
+            <Typography variant="h6" sx={{ ml: 2, mt: 2 }}>
+              {friendValues.name.username}'s Values Ranking
+            </Typography>
+            <Typography variant="h6" sx={{ ml: 2, mt: 2 }}>
+              Top 5 Basic Values
+            </Typography>
+            {valuesArray ? (
+              <List sx={{ mt: 1 }}>
+                {valuesArray.slice(0, 5).map(([key]) => (
+                  <ListItem key={key} sx={{ py: 0, minHeight: "unset" }}>
+                    <ListItemText
+                      primary={formatValueName(key)}
+                      sx={{ margin: 0 }}
+                    />
+                  </ListItem>
+                ))}
+              </List>
+            ) : (
+              <Typography variant="body1">No results to show yet!</Typography>
+            )}
+            <Typography variant="h6" sx={{ ml: 2, mt: 2 }}>
+              Top 2 Higher Order Values
+            </Typography>
+            {sortedHigherOrderValues ? (
+              <List sx={{ mt: 1, mb: 2 }}>
+                {sortedHigherOrderValues.slice(0, 2).map(([key]) => (
+                  <ListItem key={key} sx={{ py: 0, minHeight: "unset" }}>
+                    <ListItemText
+                      primary={formatValueName(key)}
+                      sx={{ margin: 0 }}
+                    />
+                  </ListItem>
+                ))}
+              </List>
+            ) : (
+              <p>"</p>
+            )}
+          </Paper>
+        </Box>
+
+        <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
+          <Paper
+            elevation={3}
+            sx={{
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              flex: 1,
+            }}
+          >
+            <FriendShow
+              friendId={friendId}
+              friendName={friendValues.name.username}
+            />
+          </Paper>
+          <Button
+            variant="outlined"
+            onClick={() => handleButton()}
+            sx={{ mt: 2 }}
+          >
+            Send Friend Request Here
+          </Button>
+          {isFriendsWithUser && (
+            <DeleteFriendButton userIdToDelete={friendId} />
+          )}
+        </Box>
+      </Box>
+    </Container>
   );
 };
 
