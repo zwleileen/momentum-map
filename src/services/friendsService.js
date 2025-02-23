@@ -63,23 +63,50 @@ const indexFriends = async (userId) => {
 };
 
 const indexRequestFriends = async (boolString) => {
+  // console.log(`tseeeeeeeeeeeeeeeest ${boolString}`); // its pending
   try {
-    const response = await fetch(`${BASE_URL}/friends/accept`, {
+    const response = await fetch(`${BASE_URL}/accept`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
-      body: JSON.stringify({ status: boolString }), //! TESTING HARDCODED FOR  NOW
+      body: JSON.stringify({ status: boolString }),
     });
-
+    console.log(`TESSSSSSSSSSSSSTTT: ${response}`);
     if (!response.ok) {
       throw new Error(`Failed in listing Friend Request List.`);
     }
-
-    return response.json();
+    const data = await response.json();
+    return data;
   } catch (err) {
     throw new Error(`Failed in listing Friend Request List: ${err.message}`);
+  }
+};
+
+const updateRequestStatus = async (updateId, status) => {
+  // params: updateId = mongoDB friendId, NOT requester/recipient id. && status = pending or accepted
+  try {
+    const response = await fetch(`${BASE_URL}/accept/update`, {
+      method: "PUT",
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({
+        updateId: updateId,
+        status: status,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error in updating friend request status.`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    throw new Error(`Error in updating: ${err.message}`);
   }
 };
 
@@ -88,4 +115,5 @@ export default {
   acceptFriendRequest,
   indexFriends,
   indexRequestFriends,
+  updateRequestStatus,
 };
