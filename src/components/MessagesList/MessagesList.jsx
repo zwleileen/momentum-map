@@ -1,11 +1,22 @@
 import { useContext, useEffect, useState } from "react";
 import * as messageService from '../../services/messageService';
 import { UserContext } from "../../contexts/UserContext";
-
+import {
+    Container,
+    Typography,
+    Box,
+    Button,
+    List,
+    ListItem,
+    ListItemText,
+    Paper,
+  } from "@mui/material";
+import { useNavigate } from "react-router";
 
 const MessagesList = () => {
     const { user } = useContext(UserContext);
     const [ messages, setMessages ] = useState([]);
+    const navigate = useNavigate();
 
       useEffect(() => {
         const fetchMessages = async () => {
@@ -38,22 +49,38 @@ const MessagesList = () => {
     }
 
     return (
-        <>
-        <h2>Messages from friends</h2>
+        <Container maxWidth="md">
+        <Typography variant="h5">Messages from friends</Typography>
+        <Box sx={{ mt:2, flex: 1, display: "flex", flexDirection: "column" }}>
+        <Paper
+            elevation={3}
+            sx={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              flex: 1,
+            }}
+          >
         {messages.length > 0 ? (
-            <ul>
+            <List sx={{mt:1}}>
                 {messages.map((msg) => (
-                    <li key={msg._id}>
-                        <strong>{msg.sender.username}: </strong>
-                        {msg.text}
-                        <button onClick={() => handleDelete(msg._id)}>Delete</button>
-                    </li>
+                    <ListItem key={msg._id} sx={{ py: 0, minHeight: "unset" }}>
+                        <ListItemText 
+                        primary={msg.sender.username}
+                        secondary={msg.text}
+                        sx={{margin:0}}
+                        />
+                        <Button variant="text" onClick={() => navigate(`/users/${msg.sender._id}`)}>Reply</Button>
+                        <Button variant="text" onClick={() => handleDelete(msg._id)}>Delete</Button>
+                    </ListItem>
                 ))}
-            </ul>
+            </List>
         ) : (
             <p>No message to show</p>
         )}
-        </>
+        </Paper>
+        </Box>
+        </Container>
     )
 }
 
