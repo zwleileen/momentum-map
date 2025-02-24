@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import friendsService from "../../services/friendsService";
 import { Button } from "@mui/material";
+import { Typography, List, ListItem, ListItemText } from "@mui/material";
 
 const FriendRequestList = ({ userStatus }) => {
   // current set to pending. Can be changed at parent side.
@@ -40,28 +41,36 @@ const FriendRequestList = ({ userStatus }) => {
   };
 
   return (
-    <div>
-      <h2>Friend Requests</h2>
+    <>
+      <Typography variant="h5" sx={{ ml: 2, mt: 2 }}>
+        Friend Requests
+      </Typography>
       {users.currentUserRequests?.length > 0 ? (
-        <ul>
+        <List sx={{ mt: 1 }}>
           {users.currentUserRequests.map((request) => (
-            <li key={request._id}>
-              {request.requester.username}
+            <ListItem key={request._id} sx={{ py: 0, minHeight: "unset" }}>
+              <ListItemText
+                primary={request.requester.username}
+                sx={{ margin: 0 }}
+              />
               {"             "}
               <Button
+                variant="text"
                 onClick={() => handleButton(request._id)}
                 disabled={disabledButtons[request._id]}
               >
-                {/*passing mongodbID to easily change status without finding again. */}
+                {/*passing mongodb ID to easily change status without finding again. */}
                 Accept
               </Button>
-            </li>
+            </ListItem>
           ))}
-        </ul>
+        </List>
       ) : (
-        <p>No friend requests</p>
+        <Typography variant="body1" sx={{ ml: 2, mt: 2 }}>
+          No friend requests
+        </Typography>
       )}
-    </div>
+    </>
   );
 };
 
