@@ -1,7 +1,18 @@
 import { useEffect } from "react";
 import friendsService from "../../services/friendsService";
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link as RouterLink } from "react-router-dom";
+import {
+  Container,
+  Typography,
+  Box,
+  Button,
+  List,
+  ListItem,
+  ListItemText,
+  Paper,
+  ListItemButton,
+} from "@mui/material";
 
 const FriendShow = ( {friendId, friendName} ) => {
   const [acceptedFriendsList, setAcceptedFriendsList] = useState([]);
@@ -19,15 +30,17 @@ const FriendShow = ( {friendId, friendName} ) => {
 
   return (
     <>
-      <h2>{friendName}'s Friends</h2>
-      <ul>{
-        acceptedFriendsList.map((friend)=>(
-          <li key={friend._id}>
-            <Link to={`/users/${friend.recipient._id}`}>{friend.recipient.username}</Link>
-          </li>
+      <Typography variant="h5" sx={{ml:2, mt:2}}>{friendName}'s Friends</Typography>
+      <List sx={{mt:1}}>
+        {acceptedFriendsList.map((friend)=>(
+          <ListItem key={friend._id} sx={{ py: 0, minHeight: "unset" }}>
+            <ListItemButton component={RouterLink} to={`/users/${friend.recipient._id}`}>
+            <ListItemText primary={friend.recipient.username} sx={{ margin: 0 }}/>
+            </ListItemButton>
+          </ListItem>
         )
         )}
-      </ul>
+      </List>
     </>
   );
 };

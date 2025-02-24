@@ -1,5 +1,5 @@
 # Project 3: Momentum Map
-This project is about developing a React App using MongoDB, Node and Express. We used Material UI library for the user interface of our app. Our app helps individuals to find friends based on matching values. You can try it [here](https://jobsmatching.netlify.app/).
+This project is about developing a React App using MongoDB, Node and Express. We used Material UI library for the user interface of our app. Our app helps individuals to find friends based on matching values. You can try it [here](https://momentum-map.netlify.app/).
 
 # Description 
 Knowing people you can connect with and share the same values can help with overall wellbeing. Momentum Map helps users to clarify their values using a questionnaire extracted from Schwartz Theory of Basic Values. Users can then find others with matching values on the app and befriend them. 
