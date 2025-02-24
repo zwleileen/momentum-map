@@ -3,6 +3,7 @@ import friendsService from "../../services/friendsService";
 import { Button } from "@mui/material";
 
 const FriendRequestList = ({ userStatus }) => {
+  // current set to pending. Can be changed at parent side.
   const [users, setUsers] = useState([]);
   const [disabledButton, setDisabledButton] = useState(false);
 
