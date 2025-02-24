@@ -67,7 +67,7 @@ const MessagesList = () => {
                         <ListItemText 
                         primary={msg.sender.username}
                         secondary={msg.text}
-                        sx={{margin:0}}
+                        sx={{margin:0, mb:2}}
                         />
                         <Button variant="text" onClick={() => navigate(`/users/${msg.sender._id}`)}>Reply</Button>
                         <Button variant="text" onClick={() => handleDelete(msg._id)}>Delete</Button>

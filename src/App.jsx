@@ -53,7 +53,7 @@ const App = () => {
       }
 
       let newValues;
-      if (valuesResults._id) {
+      if (valuesResults && valuesResults._id) {
         newValues = await valuesService.update(averages);
       } else {
         newValues = await valuesService.create(averages);

@@ -86,6 +86,17 @@ const ValuesForm = (props) => {
   };
   // console.log(valuesInputs);
 
+  const handleNext = (e) => {
+    e.preventDefault();
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  };
+  
+  const handlePrevious = (e) => {
+    e.preventDefault();
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
+  
+
   const handleSubmit = (e) => {
       e.preventDefault();
       try {
@@ -97,16 +108,30 @@ const ValuesForm = (props) => {
       }
   };
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const questionsPerPage = Math.ceil(valuesQuestions.length / 2);
+  const totalPages = 2;
+  const currentQuestions = valuesQuestions.slice(
+    (currentPage - 1) * questionsPerPage,
+    currentPage * questionsPerPage
+  );
+
 
     return (
     <Container maxWidth="md"> 
-    <Box component="form" onSubmit={handleSubmit}>
+    <Box component="form" onSubmit={(e) => {
+      if (currentPage !== totalPages) {
+        e.preventDefault();
+        return;
+      }
+      handleSubmit(e);
+    }}>
     <Typography variant="h4" sx={{mb: 2}}>Clarifying your values</Typography>
     <Typography variant="body1" sx={{mb: 2}}>
       This questionnaire consists of 21 questions taken from the Schwartz Theory of Basic Values. Please respond to all the questions below by rating each of them 1 to 5, 5 being most like you and 1 being least like you.
     </Typography>
         
-        {valuesQuestions.map(({ id, label }) => (
+        {currentQuestions.map(({ id, label }) => (
         <FormControl key={id} fullWidth sx={{ mb: 3 }} >
             <FormLabel>{label}</FormLabel>
             <RadioGroup name={id} value={valuesInputs[id] || ""} onChange={handleChange} row>
@@ -117,9 +142,23 @@ const ValuesForm = (props) => {
         </FormControl> 
         ))}
 
-        <Button type="submit" variant="outlined">
-        Submit
-      </Button>
+        <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
+          {currentPage > 1 && (
+            <Button variant="outlined" type="button" onClick={(e) => handlePrevious(e)}>
+              Previous
+            </Button>
+          )}
+          {currentPage < totalPages ? (
+            <Button variant="outlined" type="button" onClick={(e) => handleNext(e)}>
+              Next
+            </Button>
+          ) : (
+            <Button type="submit" variant="contained">
+              Submit
+            </Button>
+          )}
+        </Box>
+      
     </Box>
     </Container>
     )
