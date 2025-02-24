@@ -59,131 +59,83 @@ router.get("/matches", verifyToken, async (req, res) => {
 
     // MongoDB Aggregation Pipeline
     const matches = await Value.aggregate([
-      {
-    $match:
-      /**
-       * query: The query in MQL.
-       */
-      {
-        name: {
-          $ne: ObjectId(
-            "67b2c9e046c71c3e7384efa6"
-          )
-        }
-      }
-  },
   {
-    $project:
-      /**
-       * specifications: The fields to
-       *   include or exclude.
-       */
-      {
-        name: 1,
-        valuesArray: {
-          $objectToArray: "$values"
-        }
+    '$match': {
+      'name': {
+        '$ne': new ObjectId('67b2c9e046c71c3e7384efa6')
       }
-  },
-  {
-    $addFields:
-      /**
-       * newField: The new field name.
-       * expression: The new field expression.
-       */
-      {
-        top3: {
-          $slice: [
-            {
-              $map: {
-                input: {
-                  $slice: [
-                    {
-                      $sortArray: {
-                        input: "$valuesArray",
-                        sortBy: {
-                          v: -1
-                        }
+    }
+  }, {
+    '$project': {
+      'name': 1, 
+      'valuesArray': {
+        '$objectToArray': '$values'
+      }
+    }
+  }, {
+    '$addFields': {
+      'top3': {
+        '$slice': [
+          {
+            '$map': {
+              'input': {
+                '$slice': [
+                  {
+                    '$sortArray': {
+                      'input': '$valuesArray', 
+                      'sortBy': {
+                        'v': -1
                       }
-                    },
-                    3
-                  ]
-                },
-                as: "item",
-                in: "$$item.k"
-              }
-            },
-            3
+                    }
+                  }, 3
+                ]
+              }, 
+              'as': 'item', 
+              'in': '$$item.k'
+            }
+          }, 3
+        ]
+      }
+    }
+  }, {
+    '$addFields': {
+      'matchedCount': {
+        '$size': {
+          '$setIntersection': [
+            '$top3', [
+              'Universalism', 'Achievement', 'Benevolence'
+            ]
           ]
         }
       }
-  },
-  {
-    $addFields:
-      /**
-       * newField: The new field name.
-       * expression: The new field expression.
-       */
-      {
-        matchedCount: {
-          $size: {
-            $setIntersection: [
-              "$top3",
-              [
-                "Universalism",
-                "Achievement",
-                "Benevolence"
-              ]
-            ]
-          }
-        }
+    }
+  }, {
+    '$match': {
+      'matchedCount': {
+        '$gte': 2
       }
-  },
-  {
-    $match:
-      /**
-       * query: The query in MQL.
-       */
-      {
-        matchedCount: {
-          $gte: 2
-        }
-      }
-  },
-  {
-    $lookup:
-      /**
-       * from: The target collection.
-       * localField: The local join field.
-       * foreignField: The target join field.
-       * as: The name for the results.
-       * pipeline: Optional pipeline to run on the foreign collection.
-       * let: Optional variables to use in the pipeline field stages.
-       */
-      {
-        from: "users",
-        localField: "name",
-        foreignField: "_id",
-        as: "userInfo"
-      }
-  },
-  {
-    $project:
-      /**
-       * specifications: The fields to
-       *   include or exclude.
-       */
-      {
-        _id: 0,
-        userId: "$name",
-        username: {
-          $arrayElemAt: ["$userInfo.username", 0]
-        },
-        top3: 1,
-        matchedCount: 1
-      }
+    }
+  }, {
+    '$lookup': {
+      'from': 'users', 
+      'localField': 'name', 
+      'foreignField': '_id', 
+      'as': 'userInfo'
+    }
+  }, {
+    '$project': {
+      '_id': 0, 
+      'userId': '$name', 
+      'username': {
+        '$arrayElemAt': [
+          '$userInfo.username', 0
+        ]
+      }, 
+      'top3': 1, 
+      'matchedCount': 1
+    }
   }
-    ]);
+]);
 
     res.status(200).json(matches);
   } catch (error) {
