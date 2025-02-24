@@ -43,10 +43,11 @@ const FriendRequestList = ({ userStatus }) => {
           {users.currentUserRequests.map((request) => (
             <li key={request._id}>
               {request.requester.username}
-              <button onClick={() => handleButton(request._id)}>
+              {"             "}
+              <Button onClick={() => handleButton(request._id)}>
                 {/*passing mongodb ID to easily change status without finding again. */}
                 Accept
-              </button>
+              </Button>
             </li>
           ))}
         </ul>
