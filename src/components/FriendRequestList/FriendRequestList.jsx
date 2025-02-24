@@ -5,7 +5,7 @@ import { Button } from "@mui/material";
 const FriendRequestList = ({ userStatus }) => {
   // current set to pending. Can be changed at parent side.
   const [users, setUsers] = useState([]);
-  const [disabledButton, setDisabledButton] = useState(false);
+  const [disabledButtons, setDisabledButtons] = useState({});
 
   useEffect(() => {
     const fetchFriendRequests = async () => {
@@ -23,7 +23,9 @@ const FriendRequestList = ({ userStatus }) => {
 
   const handleButton = async (mongoID) => {
     console.log(`button pressed with id ${mongoID}`); // testing correct data giving to button. Contains MongoDB _id of the selected requester.
-    // setButtonDisabled(true);
+
+    setDisabledButtons((prev) => ({ ...prev, [mongoID]: true })); // disable button if there is request._id
+
     try {
       const updateStatus = await friendsService.updateRequestStatus(
         mongoID,
@@ -33,6 +35,7 @@ const FriendRequestList = ({ userStatus }) => {
       console.log(updateStatus);
     } catch (err) {
       console.log("Error updating friend request status:", err);
+      setDisabledButtons((prev) => ({ ...prev, [mongoID]: false })); // if theres error, reset back the button to enable
     }
   };
 
@@ -45,8 +48,11 @@ const FriendRequestList = ({ userStatus }) => {
             <li key={request._id}>
               {request.requester.username}
               {"             "}
-              <Button onClick={() => handleButton(request._id)}>
-                {/*passing mongodb ID to easily change status without finding again. */}
+              <Button
+                onClick={() => handleButton(request._id)}
+                disabled={disabledButtons[request._id]}
+              >
+                {/*passing mongodbID to easily change status without finding again. */}
                 Accept
               </Button>
             </li>
