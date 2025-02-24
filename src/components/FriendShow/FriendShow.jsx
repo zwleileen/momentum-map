@@ -17,13 +17,10 @@ const FriendShow = ( {friendId, friendName} ) => {
     const fetchFriends = async () => {
       const data = await friendsService.indexFriends(friendId);
       setAcceptedFriendsList(data);
-      // console.log(data)
     };
     fetchFriends();
   }, [friendId]);
-
-  // console.log("AFL", acceptedFriendsList);
-
+  
   return (
     <>
       <Typography variant="h5" sx={{ml:2, mt:2}}>{friendName}'s Friends</Typography>
@@ -31,7 +28,7 @@ const FriendShow = ( {friendId, friendName} ) => {
         {acceptedFriendsList.map((friend)=>(
           <ListItem key={friend._id} sx={{ py: 0, minHeight: "unset" }}>
             <ListItemButton component={RouterLink} to={`/users/${friend.recipient._id}`}>
-            <ListItemText primary={friend.recipient.username} sx={{ margin: 0 }}/>
+            <ListItemText primary={friend.recipient.username} sx={{ margin: 0, color:"#1976d2" }}/>
             </ListItemButton>
           </ListItem>
         )

@@ -54,6 +54,7 @@ const FriendRequestList = ({ userStatus }) => {
                 sx={{ margin: 0 }}
               />
               {"             "}
+
               <Button
                 variant="text"
                 onClick={() => handleButton(request._id)}

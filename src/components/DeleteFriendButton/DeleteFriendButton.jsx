@@ -9,7 +9,6 @@ const DeleteFriendButton = ({ userIdToDelete }) => {
     try{
     await friendsService.deleteFriend(userIdToDelete);
     navigate("/users");
-    //   possibly use navigate(`/users/${userIdToDelete}`); together with state change for react to detect and reload
     } catch (error) {
       console.error("Error deleting friend:", error);
     }
@@ -17,6 +16,7 @@ const DeleteFriendButton = ({ userIdToDelete }) => {
 
   return (
     <Button
+      color="primary"
       variant="outlined"
       onClick={() => handleDeleteButton(userIdToDelete)}
       sx={{ mt: 2 }}

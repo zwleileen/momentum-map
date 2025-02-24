@@ -13,14 +13,31 @@ import {
   ListItem,
   ListItemText,
   Paper,
+  Badge,
 } from "@mui/material";
+import PeopleIcon from "@mui/icons-material/People";
 import MessagesList from "../MessagesList/MessagesList";
+import friendsService from "../../services/friendsService";
 
 const Dashboard = (props) => {
   const { user } = useContext(UserContext);
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
   const [showFriend, setShowFriend] = useState(true); // using this state to toggle between showFriends or showRequests
+  const [friendRequestCount, setFriendRequestCount] = useState(0);
+
+  useEffect(() => {
+    const fetchFriendRequestCount = async () => {
+      try {
+        const requests = await friendsService.indexRequestFriends("pending");
+        await setFriendRequestCount(requests.currentUserRequests.length);
+        console.log("FRC", requests.currentUserRequests.length);
+      } catch (err) {
+        console.log("Error fetching friend requests:", err);
+      }
+    };
+    fetchFriendRequestCount();
+  }, [friendRequestCount]);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -92,13 +109,13 @@ const Dashboard = (props) => {
               <Typography variant="body1">No values to show yet</Typography>
             )}
             <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
-            <Button
-              variant="text"
-              onClick={() => navigate("/values")}
-              sx={{ mb: 2, ml: 1 }}
-            >
-              See more
-            </Button>
+              <Button
+                variant="text"
+                onClick={() => navigate("/values")}
+                sx={{ mb: 2, ml: 1 }}
+              >
+                See more
+              </Button>
             </Box>
           </Paper>
         </Box>
@@ -120,21 +137,16 @@ const Dashboard = (props) => {
                 <FriendRequest user={showFriend} />
               )}
             </Box>
-            {/* <FriendShow users={users} />
-        <FriendRequest /> */}
-            {/* <h2>Friends</h2>
-
-        <ul>
-          {users.map((user) => (
-            <li key={user._id}>{user.username}</li>
-          ))}
-        </ul> */}
 
             <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
               {showFriend ? (
-                <Button variant="text" onClick={() => handleButton()}>
-                  Requests
-                </Button>
+                <>
+                  <Badge badgeContent={friendRequestCount} color="primary"></Badge>
+                  <PeopleIcon />
+                  <Button variant="text" onClick={() => handleButton()}>
+                    Requests
+                  </Button>
+                </>
               ) : (
                 <Button variant="text" onClick={() => handleButton()}>
                   Friends
@@ -144,19 +156,14 @@ const Dashboard = (props) => {
               <Button variant="text" onClick={() => navigate("/users")}>
                 Find Friends
               </Button>
-
-              {/* <button onClick={() => handleButton()}>Requests/Friends</button>
-        <button onClick={() => handleButton()}>Requests/Friends</button>
-        <button onClick={() => navigate("/users")}>Find Friends</button> */}
             </Box>
           </Paper>
         </Box>
       </Box>
 
-      <Box sx={{mt:8}}>
+      <Box sx={{ mt: 8 }}>
         <MessagesList />
       </Box>
-
     </Container>
   );
 };

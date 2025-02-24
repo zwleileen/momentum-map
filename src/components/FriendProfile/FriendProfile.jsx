@@ -47,13 +47,9 @@ const FriendProfile = ({ users }) => {
     const checkIsFriendsWithUser = async () => {
       const data = await friendsService.indexFriends(friendId);
       const allFriends = [];
-      // console.log("RECIPIENTID", data[1].recipient._id);
-      // console.log("USERID", user._id);
       for (let i = 0; i < data.length; i++) {
         allFriends.push(data[i].recipient._id);
       }
-      // console.log("ALLFRIENDS", allFriends);
-      // console.log(allFriends.includes(user._id));
       if (allFriends.includes(user._id)) {
         setIsFriendsWithUser(true);
       } else {
@@ -133,7 +129,6 @@ const FriendProfile = ({ users }) => {
               mt: 4,
             }}
           >
-            {/* Your other components */}
           </Box>
         </>
       )}
@@ -206,6 +201,8 @@ const FriendProfile = ({ users }) => {
             />
           </Paper>
 
+          {!isFriendsWithUser && (
+            <>
           <Button
             variant="outlined"
             onClick={() => handleButton()}
@@ -213,6 +210,8 @@ const FriendProfile = ({ users }) => {
           >
             Send Friend Request Here
           </Button>
+          </>
+          )}
 
           {isFriendsWithUser && (
             <>
