@@ -3,14 +3,10 @@ import friendsService from "../../services/friendsService";
 import { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import {
-  Container,
   Typography,
-  Box,
-  Button,
   List,
   ListItem,
   ListItemText,
-  Paper,
   ListItemButton,
 } from "@mui/material";
 
