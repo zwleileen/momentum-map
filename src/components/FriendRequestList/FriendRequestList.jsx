@@ -45,7 +45,7 @@ const FriendRequestList = ({ userStatus }) => {
       <Typography variant="h5" sx={{ ml: 2, mt: 2 }}>
         Friend Requests
       </Typography>
-      {users.currentUserRequests?.length > 0 ? (
+      {users.currentUserRequests?.length > 0 ? ( // Ternery, allows toggle of what is sown in this component. aka, if friends than show friendlist, if no friends, show "no friends text"
         <List sx={{ mt: 1 }}>
           {users.currentUserRequests.map((request) => (
             <ListItem key={request._id} sx={{ py: 0, minHeight: "unset" }}>
