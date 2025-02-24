@@ -3,6 +3,7 @@ import friendsService from "../../services/friendsService";
 
 const FriendRequestList = ({ userStatus }) => {
   const [users, setUsers] = useState([]);
+  const [disabledButton, setDisabledButton] = useState(false);
 
   useEffect(() => {
     const fetchFriendRequests = async () => {
@@ -20,7 +21,7 @@ const FriendRequestList = ({ userStatus }) => {
 
   const handleButton = async (mongoID) => {
     console.log(`button pressed with id ${mongoID}`); // testing correct data giving to button. Contains MongoDB _id of the selected requester.
-
+    // setButtonDisabled(true);
     try {
       const updateStatus = await friendsService.updateRequestStatus(
         mongoID,
