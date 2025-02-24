@@ -14,7 +14,7 @@ These are the variables for the initial state:
 ```javascript
 
 ```
-There are 11 components:
+There are 15 components:
 1. SignInForm: for existing user to sign in
 2. SignUpForm: for new user to sign up
 3. NavBar: to navigate user between pages
@@ -25,15 +25,129 @@ There are 11 components:
 8. FriendsList: where user can send friend requests to others based on matching values
 9. FriendProfile: shows overview of values and friends 
 10. FriendShow: shows list of friends
-11. FriendRequest: 
+11. FriendRequest: allows user to send friend requests to others
+12. FriendRequestList: shows list of friend requests received from others
+13. DeleteFriendButton: remove existing friend
+14. Message: allows friends to send messages to each other
+15. MessageList: shows messages sent from friends
 
 # Key learnings
-## Learning 1
-xxx
+## Directly fetch users with matching values from MongoDB using Aggregation Pipeline
+This learning references the [Aggregation Operations](https://www.mongodb.com/docs/atlas/atlas-ui/agg-pipeline/) page in MongoDB Manual.
+
+In this app, in order to display a list of users based on matching values, we have fetched all values from the MongoDB and apply the filters backend to return the results to frontend. A much more efficient approach would be to directly apply the filters while fetching from MongoDB. 
+
+One way to do so is to use the MongoDB Aggregations method which performs operations in stages on the documents stored in MongoDB directly. There is a tab in MongoDB Compass titled "Aggregations" where you can perform operations in stages and generate a set of codes. This is roughly how the method will look like for fetching matching values directly from MongoDB, with code extracted from the MongoDB Compass:
+```javascript
+router.get("/matches", verifyToken, async (req, res) => {
+  try {
+    const currentUserId = req.user._id;
+
+    const userValues = await Value.findOne({ name: currentUserId }).lean();
+
+    if (!userValues) {
+      return res.status(404).json({ error: "User values not found." });
+    }
+
+    const getTop3Values = (valuesObj) =>
+      Object.entries(valuesObj)
+        .sort(([, aScore], [, bScore]) => bScore - aScore)
+        .slice(0, 3)
+        .map(([name]) => name);
+
+    const userTop3 = getTop3Values(userValues.values);
+
+    // MongoDB Aggregation Pipeline
+    const matches = await Value.aggregate([
+  {
+    '$match': {
+      'name': {
+        '$ne': new ObjectId('67b2c9e046c71c3e7384efa6')
+      }
+    }
+  }, {
+    '$project': {
+      'name': 1, 
+      'valuesArray': {
+        '$objectToArray': '$values'
+      }
+    }
+  }, {
+    '$addFields': {
+      'top3': {
+        '$slice': [
+          {
+            '$map': {
+              'input': {
+                '$slice': [
+                  {
+                    '$sortArray': {
+                      'input': '$valuesArray', 
+                      'sortBy': {
+                        'v': -1
+                      }
+                    }
+                  }, 3
+                ]
+              }, 
+              'as': 'item', 
+              'in': '$$item.k'
+            }
+          }, 3
+        ]
+      }
+    }
+  }, {
+    '$addFields': {
+      'matchedCount': {
+        '$size': {
+          '$setIntersection': [
+            '$top3', [
+              'Universalism', 'Achievement', 'Benevolence'
+            ]
+          ]
+        }
+      }
+    }
+  }, {
+    '$match': {
+      'matchedCount': {
+        '$gte': 2
+      }
+    }
+  }, {
+    '$lookup': {
+      'from': 'users', 
+      'localField': 'name', 
+      'foreignField': '_id', 
+      'as': 'userInfo'
+    }
+  }, {
+    '$project': {
+      '_id': 0, 
+      'userId': '$name', 
+      'username': {
+        '$arrayElemAt': [
+          '$userInfo.username', 0
+        ]
+      }, 
+      'top3': 1, 
+      'matchedCount': 1
+    }
+  }
+]);
+
+    res.status(200).json(matches);
+  } catch (error) {
+    console.error("Error fetching matches:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+```
 
 ## Learning 2
 yyy
   
 # Planned future enhancements
-1. yyy
-2. xxx
+1. Directly fetch users with matching values instead of filtering
+2. Add more profiling features e.g. hobbies and/or more nuanced profiling e.g. more granular values profile
