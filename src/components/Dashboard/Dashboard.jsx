@@ -14,6 +14,7 @@ import {
   ListItemText,
   Paper,
 } from "@mui/material";
+import MessagesList from "../MessagesList/MessagesList";
 
 const Dashboard = (props) => {
   const { user } = useContext(UserContext);
@@ -149,6 +150,11 @@ const Dashboard = (props) => {
           </Paper>
         </Box>
       </Box>
+
+      <Box sx={{mt:8}}>
+        <MessagesList />
+      </Box>
+
     </Container>
   );
 };

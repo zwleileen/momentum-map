@@ -42,4 +42,19 @@ const create = async (formData) => {
   }
 };
 
-export { index, create };
+const show = async (userId) => {
+  try {
+    const res = await fetch(`${BASE_URL}/${userId}`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+    });
+
+    const responseData = await res.json();
+    // console.log("API Response:", responseData);
+
+    return responseData;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { index, create, show };
