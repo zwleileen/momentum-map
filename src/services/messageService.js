@@ -11,4 +11,35 @@ const index = async () => {
   }
 };
 
-export { index };
+const create = async (formData) => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    throw new Error("No authentication token found");
+  }
+
+  try {
+    const res = await fetch(BASE_URL, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    // Handle non-200 responses
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.error || "Failed to create values");
+    }
+
+    // Only read the response body once
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    console.log("Error creating values:", error);
+    throw error;
+  }
+};
+
+export { index, create };
