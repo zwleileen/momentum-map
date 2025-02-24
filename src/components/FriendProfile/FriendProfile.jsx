@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import { useParams } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import * as valuesService from "../../services/valuesService";
 import friendsService from "../../services/friendsService";
 import FriendShow from "../FriendShow/FriendShow";
@@ -16,12 +16,14 @@ import {
 } from "@mui/material";
 import DeleteFriendButton from "../DeleteFriendButton/DeleteFriendButton";
 import PeopleIcon from "@mui/icons-material/People";
+import Message from "../Message/Message";
 
 const FriendProfile = ({ users }) => {
   const { friendId } = useParams();
   const { user } = useContext(UserContext);
   const [friendValues, setFriendValues] = useState();
   const [isFriendsWithUser, setIsFriendsWithUser] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // console.log("friendId:", friendId);
@@ -203,6 +205,7 @@ const FriendProfile = ({ users }) => {
               friendName={friendValues.name.username}
             />
           </Paper>
+
           <Button
             variant="outlined"
             onClick={() => handleButton()}
@@ -210,10 +213,24 @@ const FriendProfile = ({ users }) => {
           >
             Send Friend Request Here
           </Button>
+
           {isFriendsWithUser && (
+            <>
             <DeleteFriendButton userIdToDelete={friendId} />
+            <Button
+            variant="outlined"
+            onClick={() => navigate(`/users/${friendId}/message`)}
+            sx={{ mt: 2 }}
+            >
+              Send message
+            </Button>
+            </>
           )}
         </Box>
+      </Box>
+
+      <Box sx={{mt:4}}>
+        <Outlet />
       </Box>
     </Container>
   );

@@ -13,6 +13,7 @@ import ValuesForm from "./components/ValuesForm/ValuesForm";
 import ValuesResults from "./components/ValuesResults/ValuesResults";
 import * as valuesService from "./services/valuesService";
 import { UserContext } from "./contexts/UserContext";
+import Message from "./components/Message/Message";
 
 const App = () => {
   const { user } = useContext(UserContext);
@@ -119,8 +120,9 @@ const App = () => {
             />
             <Route
               path="/users/:friendId"
-              element={<FriendProfile users={users} />}
-            />
+              element={<FriendProfile users={users} />}>
+                <Route path="message" element={<Message />}/>
+            </Route>
           </>
         ) : (
           <>
