@@ -57,4 +57,25 @@ const show = async (userId) => {
   }
 };
 
-export { index, create, show };
+const deleteMessage = async (messageId) => {
+  try {
+    const res = await fetch(`${BASE_URL}/${messageId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.error || "Failed to delete message");
+    }
+
+    return await res.json();
+  } catch (error) {
+    console.log("Error deleting message:", error);
+    throw error;
+  }
+};
+
+export { index, create, show, deleteMessage };

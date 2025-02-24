@@ -5,7 +5,7 @@ import { UserContext } from "../../contexts/UserContext";
 
 const MessagesList = () => {
     const { user } = useContext(UserContext);
-    const [ messages, setMessages ] = useState();
+    const [ messages, setMessages ] = useState([]);
 
       useEffect(() => {
         const fetchMessages = async () => {
@@ -28,6 +28,14 @@ const MessagesList = () => {
         fetchMessages();
       }, [user]);
 
+    const handleDelete = async (messageId) => {
+        try {
+            await messageService.deleteMessage(messageId);
+            setMessages(messages.filter((msg) => msg._id !== messageId))
+        } catch (err) {
+            console.error("Failed to delete message:", err);
+        }
+    }
 
     return (
         <>
@@ -38,6 +46,7 @@ const MessagesList = () => {
                     <li key={msg._id}>
                         <strong>{msg.sender.username}: </strong>
                         {msg.text}
+                        <button onClick={() => handleDelete(msg._id)}>Delete</button>
                     </li>
                 ))}
             </ul>
