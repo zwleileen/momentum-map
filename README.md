@@ -14,7 +14,7 @@ These are the variables for the initial state:
 ```javascript
 
 ```
-There are 11 components:
+There are 15 components:
 1. SignInForm: for existing user to sign in
 2. SignUpForm: for new user to sign up
 3. NavBar: to navigate user between pages
@@ -25,15 +25,21 @@ There are 11 components:
 8. FriendsList: where user can send friend requests to others based on matching values
 9. FriendProfile: shows overview of values and friends 
 10. FriendShow: shows list of friends
-11. FriendRequest: 
+11. FriendRequest: allows user to send friend requests to others
+12. FriendRequestList: shows list of friend requests received from others
+13. DeleteFriendButton: remove existing friend
+14. Message: allows friends to send messages to each other
+15. MessageList: shows messages sent from friends
 
 # Key learnings
-## Learning 1
-xxx
+## Directly fetch users with matching values from MongoDB using Aggregation Pipeline
+This learning references the [Aggregation Operations](https://www.mongodb.com/docs/manual/core/aggregation-pipeline/) page in MongoDB Manual.
+
+In this app, 
 
 ## Learning 2
 yyy
   
 # Planned future enhancements
-1. yyy
-2. xxx
+1. Directly fetch users with matching values instead of filtering
+2. Add more profiling features e.g. hobbies and/or more nuanced profiling e.g. more granular values profile
