@@ -58,7 +58,7 @@ const FriendRequestList = ({ userStatus }) => {
           ))}
         </List>
       ) : (
-        <p>No friend requests</p>
+        <Typography variant="body1" sx={{ml:2, mt:2}}>No friend requests</Typography>
       )}
     </>
   );
