@@ -13,7 +13,7 @@ import {
   ListItem,
   ListItemText,
   Paper,
-} from '@mui/material';
+} from "@mui/material";
 
 const Dashboard = (props) => {
   const { user } = useContext(UserContext);
@@ -50,68 +50,104 @@ const Dashboard = (props) => {
   };
 
   const handleButton = () => {
-    //consoditating click to navigate to /users and  toggle state showFriend and setShowFriend.
+    //toggle state showFriend and setShowFriend. can be repurposed to consolidate click.
     // navigate("/users");
     setShowFriend(!showFriend);
   };
 
   return (
     <Container maxWidth="md">
-      <Typography variant="h5" sx={{mt:4}}>{user.username}'s Profile</Typography>
-      <Box sx={{display:"flex", justifyContent:"space-evenly", gap: 4, mt: 4}}>
-      
-      <Box sx={{flex: 1, display: "flex", flexDirection: "column"}}>
-        <Paper elevation={3} sx={{width: "100%", display:"flex", flexDirection:"column", flex:1}}>
-        <Typography variant="h5" sx={{ml:2, mt:2}}>Top 5 Values</Typography>
-        {topValues.length ? (
-          <List sx={{mt:1}}>
-            {topValues.map(([key]) => (
-              <ListItem key={key} sx={{py: 0, minHeight: "unset"}}>
-                <ListItemText primary={formatValueName(key)} sx={{ margin: 0 }}/>
-              </ListItem>
-            ))}
-          </List>
-        ) : (
-          <Typography variant="body1">No values to show yet</Typography>
-        )}
-        <Button variant="text" onClick={() => navigate("/values")} sx={{mb:2, ml:1}}>See more</Button>
-        </Paper>
-      </Box>
-      
-      <Box sx={{flex: 1, display: "flex", flexDirection: "column"}}>
-        <Paper elevation={3} sx={{height: "100%", display:"flex", flexDirection:"column", flex:1}}>
-        <Box sx={{flexGrow:1}}>
-        {showFriend ? (
-          <FriendShow friendId={user._id} friendName={user.username} />
-        ) : (
-          <FriendRequest user={showFriend} />
-        )}
+      <Typography variant="h5" sx={{ mt: 4 }}>
+        {user.username}'s Profile
+      </Typography>
+      <Box
+        sx={{ display: "flex", justifyContent: "space-evenly", gap: 4, mt: 4 }}
+      >
+        <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
+          <Paper
+            elevation={3}
+            sx={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              flex: 1,
+            }}
+          >
+            <Typography variant="h5" sx={{ ml: 2, mt: 2 }}>
+              Top 5 Values
+            </Typography>
+            {topValues.length ? (
+              <List sx={{ mt: 1 }}>
+                {topValues.map(([key]) => (
+                  <ListItem key={key} sx={{ py: 0, minHeight: "unset" }}>
+                    <ListItemText
+                      primary={formatValueName(key)}
+                      sx={{ margin: 0 }}
+                    />
+                  </ListItem>
+                ))}
+              </List>
+            ) : (
+              <Typography variant="body1">No values to show yet</Typography>
+            )}
+            <Button
+              variant="text"
+              onClick={() => navigate("/values")}
+              sx={{ mb: 2, ml: 1 }}
+            >
+              See more
+            </Button>
+          </Paper>
         </Box>
-        {/* <FriendShow users={users} />
+
+        <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
+          <Paper
+            elevation={3}
+            sx={{
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              flex: 1,
+            }}
+          >
+            <Box sx={{ flexGrow: 1 }}>
+              {showFriend ? (
+                <FriendShow friendId={user._id} friendName={user.username} />
+              ) : (
+                <FriendRequest user={showFriend} />
+              )}
+            </Box>
+            {/* <FriendShow users={users} />
         <FriendRequest /> */}
-        {/* <h2>Friends</h2>
+            {/* <h2>Friends</h2>
 
         <ul>
           {users.map((user) => (
             <li key={user._id}>{user.username}</li>
           ))}
         </ul> */}
-        
-        <Box sx={{display:"flex", justifyContent:"center", mb:2}}>
-        {showFriend ? (
-          <Button variant="text" onClick={() => handleButton()}>Requests</Button>
-        ) : (
-          <Button variant="text" onClick={() => handleButton()}>Friends</Button>
-        )}
 
-        <Button variant="text" onClick={() => navigate("/users")}>Find Friends</Button>
+            <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
+              {showFriend ? (
+                <Button variant="text" onClick={() => handleButton()}>
+                  Requests
+                </Button>
+              ) : (
+                <Button variant="text" onClick={() => handleButton()}>
+                  Friends
+                </Button>
+              )}
 
-        {/* <button onClick={() => handleButton()}>Requests/Friends</button>
+              <Button variant="text" onClick={() => navigate("/users")}>
+                Find Friends
+              </Button>
+
+              {/* <button onClick={() => handleButton()}>Requests/Friends</button>
         <button onClick={() => handleButton()}>Requests/Friends</button>
         <button onClick={() => navigate("/users")}>Find Friends</button> */}
+            </Box>
+          </Paper>
         </Box>
-      </Paper>
-      </Box>
       </Box>
     </Container>
   );
