@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import friendsService from "../../services/friendsService";
+import { Button } from "@mui/material";
 
 const FriendRequestList = ({ userStatus }) => {
   const [users, setUsers] = useState([]);
+  const [disabledButton, setDisabledButton] = useState(false);
 
   useEffect(() => {
     const fetchFriendRequests = async () => {
@@ -20,7 +22,7 @@ const FriendRequestList = ({ userStatus }) => {
 
   const handleButton = async (mongoID) => {
     console.log(`button pressed with id ${mongoID}`); // testing correct data giving to button. Contains MongoDB _id of the selected requester.
-
+    // setButtonDisabled(true);
     try {
       const updateStatus = await friendsService.updateRequestStatus(
         mongoID,
@@ -41,10 +43,11 @@ const FriendRequestList = ({ userStatus }) => {
           {users.currentUserRequests.map((request) => (
             <li key={request._id}>
               {request.requester.username}
-              <button onClick={() => handleButton(request._id)}>
+              {"             "}
+              <Button onClick={() => handleButton(request._id)}>
                 {/*passing mongodb ID to easily change status without finding again. */}
                 Accept
-              </button>
+              </Button>
             </li>
           ))}
         </ul>
