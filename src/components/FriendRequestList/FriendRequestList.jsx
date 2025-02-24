@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import friendsService from "../../services/friendsService";
+import { Button } from "@mui/material";
 
 const FriendRequestList = ({ userStatus }) => {
   const [users, setUsers] = useState([]);
