@@ -1,10 +1,11 @@
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import friendsService from "../../services/friendsService";
 import { Button } from "@mui/material";
 
 const DeleteFriendButton = ({ userIdToDelete }) => {
+  const navigate = useNavigate();
+
   const handleDeleteButton = async (userIdToDelete) => {
-    const navigate = useNavigate();
     try{
     await friendsService.deleteFriend(userIdToDelete);
     navigate("/users");
