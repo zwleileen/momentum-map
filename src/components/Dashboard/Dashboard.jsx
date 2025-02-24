@@ -91,6 +91,7 @@ const Dashboard = (props) => {
             ) : (
               <Typography variant="body1">No values to show yet</Typography>
             )}
+            <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
             <Button
               variant="text"
               onClick={() => navigate("/values")}
@@ -98,6 +99,7 @@ const Dashboard = (props) => {
             >
               See more
             </Button>
+            </Box>
           </Paper>
         </Box>
 
