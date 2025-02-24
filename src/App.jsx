@@ -27,6 +27,11 @@ const App = () => {
       try {
         if (user) {
           const fetchedValues = await valuesService.show(user._id);
+
+          if (!fetchedValues) {
+            console.log("No values returned");  // Debug log
+            return;
+          }
           setValuesResults(fetchedValues);
         }
       } catch (err) {

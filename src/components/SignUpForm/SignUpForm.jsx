@@ -89,7 +89,7 @@ const SignUpForm = () => {
       </Stack>  
       
       <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
-          <Button variant="outlined" disabled={isFormInvalid()}>Sign Up</Button>
+          <Button type="submit" variant="outlined" disabled={isFormInvalid()}>Sign Up</Button>
           <Button variant="outlined" onClick={() => navigate('/')}>Cancel</Button>
       </Stack>
       </Box>
