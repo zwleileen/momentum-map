@@ -49,9 +49,8 @@ const MessagesList = () => {
     }
 
     return (
-        <Container maxWidth="md">
-        <Typography variant="h5">Messages from friends</Typography>
-        <Box sx={{ mt:2, flex: 1, display: "flex", flexDirection: "column" }}>
+        <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
+        <Typography variant="h5" sx={{mb:4}}>Messages from friends</Typography>
         <Paper
             elevation={3}
             sx={{
@@ -80,7 +79,6 @@ const MessagesList = () => {
         )}
         </Paper>
         </Box>
-        </Container>
     )
 }
 

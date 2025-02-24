@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import * as messageService from '../../services/messageService';
 import { useParams } from 'react-router';
 import { UserContext } from '../../contexts/UserContext';
+import { Container, TextField, Button, Box, Typography, Paper } from '@mui/material';
 
 const Message = () => {
     const {friendId} = useParams(); //receiver Id
@@ -31,20 +32,23 @@ const Message = () => {
       
 
     return (
-        <>
-        <form onSubmit={handleSubmit}>
-        <label htmlFor='text-input'>Message:</label>
-            <textarea
-                required
-                type='text'
-                name='text'
-                id='text-input'
-                value={formData.text}
-                onChange={handleChange}
-            />
-        <button type='submit'>Submit</button>
-        </form>
-        </>
+        <Paper elevation={3} sx={{ p: 3, margin: '0 auto' }}>
+        <Typography variant="h6" sx={{mb:2}}>Send a Message</Typography>
+        <Box component="form" onSubmit={handleSubmit}>
+        <TextField 
+            id='text-input'
+            required
+            name='text'
+            label='Message'
+            value={formData.text}
+            onChange={handleChange}
+            multiline
+            minRows={2}
+            fullWidth
+        />
+        <Button variant="text" type='submit' sx={{mt:1}}>Submit</Button>
+        </Box>
+        </Paper>
     )
 }
 
