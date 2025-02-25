@@ -146,8 +146,131 @@ router.get("/matches", verifyToken, async (req, res) => {
 ```
 
 ## Learning 2
-yyy
+When the user lands on their dashboard, they would be able to see a friend request counter, that meant we had to have a request service upon loading of the dashboard page as shown below:
+```
+  const [friendRequestCount, setFriendRequestCount] = useState(0);
+
+  useEffect(() => {
+    const fetchFriendRequestCount = async () => {
+      try {
+        const requests = await friendsService.indexRequestFriends("pending");
+        await setFriendRequestCount(requests.currentUserRequests.length);
+        console.log("FRC", requests.currentUserRequests.length);
+      } catch (err) {
+        console.log("Error fetching friend requests:", err);
+      }
+    };
+    fetchFriendRequestCount();
+  }, [friendRequestCount]);
+```
+
+```  
+              {showFriend ? (
+                <>
+                  <Badge badgeContent={friendRequestCount} color="primary"></Badge>
+                  <PeopleIcon />
+                  <Button variant="text" onClick={() => handleButton()}>
+                    Requests
+                  </Button>
+                </>
+```
+
+## Learning 3
+Because of the way our data was structured when a friendship is accepted, our delete friends function had to ensure that both instances had to be deleted from the database.
+
+The frontend fed the user's ID being deleted
+
+```
+import { useNavigate } from "react-router-dom";
+import friendsService from "../../services/friendsService";
+import { Button } from "@mui/material";
+
+const DeleteFriendButton = ({ userIdToDelete }) => {
+  const navigate = useNavigate();
+
+  const handleDeleteButton = async (userIdToDelete) => {
+    try{
+    await friendsService.deleteFriend(userIdToDelete);
+    navigate("/users");
+    } catch (error) {
+      console.error("Error deleting friend:", error);
+    }
+  };
+
+  return (
+    <Button
+      color="primary"
+      variant="outlined"
+      onClick={() => handleDeleteButton(userIdToDelete)}
+      sx={{ mt: 2 }}
+    >
+      Remove Friend
+    </Button>
+  );
+};
+
+export default DeleteFriendButton;
+```
+For the backend to find the two instances to delete, it had to find based on "recipientID: UserDeleted" as well as "requesterID: UserDeleted" with the code below:
+```
+router.get("/:userId", verifyToken, async (req, res) => {
+  try {
+    const requesterId = req.params.userId;
+    const friends = await Friend.find({
+      requester: requesterId,
+      status: "accepted",
+    }).populate("recipient");
+    console.log(friends);
+    res.json(friends);
+  } catch (err) {
+    res.status(500).json({ err: err.message });
+  }
+});
+
+// Deletes friend (user deletes userId)
+router.delete("/:userId", verifyToken, async (req, res) => {
+  const userId = req.user._id;
+  const userIdToDelete = req.params.userId;
+
+  try {
+    const friendAgreementId1 = await Friend.find({
+      requester: userIdToDelete,
+      recipient: userId,
+      status: "accepted",
+    });
+    const friendAgreementId2 = await Friend.find({
+      requester: userId,
+      recipient: userIdToDelete,
+      status: "accepted",
+    });
+
+    const friendAgreementsToDelete = [
+      ...friendAgreementId1,
+      ...friendAgreementId2,
+    ];
+    const idsToDelete = friendAgreementsToDelete.map(
+      (agreement) => agreement._id
+    );
+
+    // https://www.mongodb.com/docs/manual/reference/method/db.collection.deleteMany/
+    // note: deleteMany works with filter objects that differs from deleteOne
+
+    const result = await Friend.deleteMany({ _id: { $in: idsToDelete } });
+
+    res.status(200).json({
+      message: `${result.deletedCount} agreements deleted`,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Error deleting agreements",
+    });
+  }
+});
+```
   
 # Planned future enhancements
 1. Directly fetch users with matching values instead of filtering
 2. Add more profiling features e.g. hobbies and/or more nuanced profiling e.g. more granular values profile
+3. Refreshes friends request list to not display a request after it is accepted.
+4. Have the dashboard show the user's actual name instead of their login username. This would include checks for no symbols and numbers in their name and storing it as a separate field.
