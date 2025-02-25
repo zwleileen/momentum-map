@@ -24,7 +24,7 @@ const NavBar = () => {
       ) : (
         <ul>
           <li><Button component={RouterLink} to='/' variant="outlined">Home</Button></li>
-          <li><Button component={RouterLink} to='/sign-up' variant="outlined">Sign Up</Button></li>
+          {/* <li><Button component={RouterLink} to='/sign-up' variant="outlined">Sign Up</Button></li> */}
           <li><Button component={RouterLink} to='/sign-in' variant="outlined">Sign In</Button></li>
         </ul>
       )}
